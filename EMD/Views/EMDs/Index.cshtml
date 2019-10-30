@@ -1,0 +1,188 @@
+﻿@model EMDViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <a class="btn btn-outline-info" asp-action="Create"><i class="fas fa-plus"></i>&nbsp; Thêm Mới</a>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active">EMD</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Tim Kiem -->
+<!-- /.content -->
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-list-alt text-info"></i> Danh Sách Đặt Cọc</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="overflow:auto;">
+                <table class="table table-striped border tblEMD" id="listAll">
+                    <thead>
+                        <tr class="table-info">
+                            <th>#</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SGTCode)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().BatDau)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().KetThuc)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SLVeDatCoc)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().PNR)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NgayDC)</th>
+
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HetHan)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HangHK)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().STDatCoc)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HoanCoc)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().LoaiTien)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TyGia)</th>
+
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().LoaiBK)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SLVeDaXuat)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TienXuatVe)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().GhiChu)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TienPhat)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NgayPhat)</th>
+
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SoCTPhat)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().DongHoSo)</th>
+                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NguoiNhap)</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.EMDTbls)
+                        {
+                        <tr>
+                            <partial name="_TableButtonPartial" model="item.Id" />
+
+                            <td>@Html.DisplayFor(m => item.SGTCode)</td>
+                            @*@<td>Html.DisplayFor(m => item.BatDau)</td>*@
+                            <td>@Html.Raw(item.BatDau.Value.ToShortDateString())</td>
+                            <td>@Html.Raw(item.KetThuc.Value.ToShortDateString())</td>
+                            <td>@Html.DisplayFor(m => item.SLVeDatCoc)</td>
+                            <td>@Html.DisplayFor(m => item.PNR)</td>
+                            <td>@Html.DisplayFor(m => item.NgayDC)</td>
+
+                            <td>@Html.DisplayFor(m => item.HetHan)</td>
+                            <td>@Html.DisplayFor(m => item.HangHK)</td>
+                            @* <td>@Html.DisplayFor(m => item.STDatCoc)</td>*@
+                            <td>@Html.Raw(item.STDatCoc.ToString("N0"))</td>
+                            <td>@Html.DisplayFor(m => item.HoanCoc)</td>
+                            <td>@Html.DisplayFor(m => item.LoaiTien)</td>
+                            <td>@Html.DisplayFor(m => item.TyGia)</td>
+
+                            <td>@Html.DisplayFor(m => item.LoaiBK)</td>
+                            <td>@Html.DisplayFor(m => item.SLVeDaXuat)</td>
+                            <td>@Html.DisplayFor(m => item.TienXuatVe)</td>
+                            <td>@Html.DisplayFor(m => item.GhiChu)</td>
+                            <td>@Html.DisplayFor(m => item.TienPhat)</td>
+                            <td>@Html.DisplayFor(m => item.NgayPhat)</td>
+
+                            <td>@Html.DisplayFor(m => item.SoCTPhat)</td>
+                            <td>@Html.DisplayFor(m => item.DongHoSo)</td>
+                            <td>@Html.DisplayFor(m => item.NguoiNhap)</td>
+
+                        </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SGTCode)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().BatDau)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().KetThuc)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SLVeDatCoc)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().PNR)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NgayDC)</th>
+
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HetHan)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HangHK)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().STDatCoc)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HoanCoc)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().LoaiTien)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TyGia)</th>
+
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().LoaiBK)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SLVeDaXuat)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TienXuatVe)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().GhiChu)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TienPhat)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NgayPhat)</th>
+
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SoCTPhat)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().DongHoSo)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NguoiNhap)</th>
+                            
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+
+        </div>
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+
+
+
+@section Scripts{
+    <script>
+
+        $(function () {
+            $("#datepicker").datepicker({
+                dateFormat: 'dd/mm/yy'
+            });
+
+            $('#listAll').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+            });
+        });
+    </script>
+    <script src="~/js/Admin/EMD/indexController.js"></script>
+
+    <style>
+        .tblEMD .cursor-pointer:hover {
+            background-color: #3E5C9A;
+            cursor: pointer;
+        }
+
+        .hoverClass {
+            background-color: #3E5C9A;
+        }
+    </style>
+}
+
