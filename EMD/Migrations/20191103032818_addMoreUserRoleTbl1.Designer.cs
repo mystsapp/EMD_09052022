@@ -4,14 +4,16 @@ using EMD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMD.Migrations
 {
     [DbContext(typeof(EMDDbContext))]
-    partial class EMDDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191103032818_addMoreUserRoleTbl1")]
+    partial class addMoreUserRoleTbl1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,9 +194,8 @@ namespace EMD.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                    b.Property<string>("RoleName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Trangthai")
                         .HasColumnType("bit");
@@ -242,15 +243,8 @@ namespace EMD.Migrations
                     b.Property<int>("ChiNhanhId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DMDaiLy")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<bool?>("Doimk")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Khoi")
-                        .HasColumnType("nvarchar(10)")
+                        .HasColumnType("varchar(10)")
                         .HasMaxLength(10);
 
                     b.Property<string>("Name")
@@ -258,12 +252,8 @@ namespace EMD.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<DateTime?>("Ngaydoimk")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Password")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhongBan")
                         .HasColumnType("nvarchar(50)")
@@ -276,6 +266,9 @@ namespace EMD.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VanPhong")
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 

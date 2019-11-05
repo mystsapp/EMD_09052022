@@ -1,0 +1,174 @@
+﻿@model UserViewModel
+@using EMD.Extensions
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Thêm Mới</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a asp-action="Index">Danh Sách Account</a></li>
+                    <li class="breadcrumb-item active">Thêm Mới Account</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-file text-info"></i> Thêm Mới Account</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <form asp-action="Create" method="post" autocomplete="off">
+                <div class="p-4 border rounded">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="User.Username"></label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" asp-for="User.Username" />
+                            <span class="text-danger" asp-validation-for="User.Username"></span>
+                        </div>
+                        
+
+                        <div class="col-2">
+                            <label asp-for="User.Password"></label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" asp-for="User.Password" />
+                            <span class="text-danger" asp-validation-for="User.Password"></span>
+                        </div>
+                        
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="User.RoleId"></label>
+                        </div>
+                        <div class="col-4">
+                            <select asp-for="@Model.User.RoleId" asp-items="Model.Roles.ToSelectListItem(Model.User.RoleId)" class="form-control ddlRole"></select>
+                        </div>
+
+                        <div class="col-2">
+                            <label asp-for="User.Name"></label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" asp-for="User.Name" />
+                            <span class="text-danger" asp-validation-for="User.Name"></span>
+                        </div>
+                        
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="User.PhongBan"></label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" asp-for="User.PhongBan" />
+                            <span class="text-danger" asp-validation-for="User.PhongBan"></span>
+                        </div>
+                        
+
+                        <div class="col-2">
+                            <label asp-for="User.ChiNhanhId"></label>
+                        </div>
+                        <div class="col-4">
+                            <select asp-for="@Model.User.ChiNhanhId" asp-items="Model.ChiNhanhs.ToSelectListItem(Model.User.ChiNhanhId)" class="form-control ddlChiNhanh"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="User.DMDaiLy"></label>
+                        </div>
+                        <div class="col-4">
+                            <select asp-for="User.DMDaiLy" class="form-control ddlDMDaily"></select>
+                            <span class="text-danger" asp-validation-for="User.DMDaiLy"></span>
+                        </div>
+                        
+
+                        <div class="col-2">
+                            <label asp-for="User.Khoi"></label>
+                        </div>
+                        <div class="col-4">
+                            <select class="form-control" asp-for="User.Khoi">
+                                <option value="OB">OB</option>
+                                <option value="ND">ND</option>
+                                <option value="">--None--</option>
+                            </select>
+                            <span class="text-danger" asp-validation-for="User.Khoi"></span>
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="User.TinhTrang"></label>
+                        </div>
+                        <div class="col-4">
+                            <div class="icheck-primary">
+                                <input type="checkbox" asp-for="User.PhongBan" />
+                               
+                            </div>
+
+                            <span class="text-danger" asp-validation-for="User.TinhTrang"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
+                        <a class="btn btn-success" asp-action="Index"><i class="fas fa-backward"></i></a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <!-- /.card-body -->
+
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script src="~/js/Admin/User/createController.js"></script>
+    }
+
+}
+

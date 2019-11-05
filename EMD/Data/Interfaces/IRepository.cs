@@ -21,11 +21,9 @@ namespace EMD.Data.Interfaces
 
         Task Save();
 
-        Task<T> GetByIdAsync(int? id);
-
-        
+        Task<T> GetByIdAsync(int? id);        
         Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
-
+        Task<IEnumerable<T>> FindIncludeOneAsync(Expression<Func<T, object>> expressObj, Expression<Func<T, bool>> expression);
         
     }
 }

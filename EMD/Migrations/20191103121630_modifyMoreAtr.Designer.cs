@@ -4,14 +4,16 @@ using EMD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMD.Migrations
 {
     [DbContext(typeof(EMDDbContext))]
-    partial class EMDDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191103121630_modifyMoreAtr")]
+    partial class modifyMoreAtr
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,9 +248,6 @@ namespace EMD.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<bool?>("Doimk")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Khoi")
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
@@ -257,9 +256,6 @@ namespace EMD.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
-
-                    b.Property<DateTime?>("Ngaydoimk")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
                         .HasColumnType("varchar(50)")

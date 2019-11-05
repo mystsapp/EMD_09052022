@@ -83,5 +83,9 @@ namespace EMD.Data.Repository
             return await _context.Set<T>().Include(expression).ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> FindIncludeOneAsync(Expression<Func<T, object>> expressObj, Expression<Func<T, bool>> expression)
+        {
+            return await _context.Set<T>().Include(expressObj).Where(expression).ToListAsync();
+        }
     }
 }

@@ -15,5 +15,9 @@ namespace EMD.Data
         }
         public DbSet<EMDTbl> EMDs { get; set; }
         public DbSet<SGTCodeModel> SGTCodeModels { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<ChiNhanh> ChiNhanhs { get; set; }
+        public DbSet<DMDaiLy> DMDaiLies { get; set; }
     }
 }

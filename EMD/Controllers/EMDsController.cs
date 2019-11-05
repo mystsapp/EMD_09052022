@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EMD.Controllers
 {
-    public class EMDsController : Controller
+    public class EMDsController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
 

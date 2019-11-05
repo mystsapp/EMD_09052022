@@ -96,9 +96,9 @@
 
                             <td>@Html.DisplayFor(m => item.LoaiBK)</td>
                             <td>@Html.DisplayFor(m => item.SLVeDaXuat)</td>
-                            <td>@Html.DisplayFor(m => item.TienXuatVe)</td>
+                            <td>@Html.Raw(item.TienXuatVe.ToString("N0"))</td>
                             <td>@Html.DisplayFor(m => item.GhiChu)</td>
-                            <td>@Html.DisplayFor(m => item.TienPhat)</td>
+                            <td>@Html.Raw(item.TienPhat.ToString("N0"))</td>
                             <td>@Html.DisplayFor(m => item.NgayPhat)</td>
 
                             <td>@Html.DisplayFor(m => item.SoCTPhat)</td>
