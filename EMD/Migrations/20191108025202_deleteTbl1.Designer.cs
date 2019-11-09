@@ -4,14 +4,16 @@ using EMD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMD.Migrations
 {
     [DbContext(typeof(EMDDbContext))]
-    partial class EMDDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191108025202_deleteTbl1")]
+    partial class deleteTbl1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,48 +79,6 @@ namespace EMD.Migrations
                     b.HasIndex("ChiNhanhId");
 
                     b.ToTable("DMDaiLies");
-                });
-
-            modelBuilder.Entity("EMD.Data.Models.DienGiaiModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("giave")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("lephi")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("nguoicapnhat")
-                        .HasColumnType("varchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("number")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<decimal>("phidv")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("sgtcode")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("slve")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("thuesb")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("thuevat")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DienGiaiModels");
                 });
 
             modelBuilder.Entity("EMD.Data.Models.EMDTbl", b =>
@@ -244,37 +204,6 @@ namespace EMD.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("EMD.Data.Models.SGTCodeModel", b =>
-                {
-                    b.Property<decimal>("Id")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("batdau")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("diemtq")
-                        .HasColumnType("varchar(250)")
-                        .HasMaxLength(250);
-
-                    b.Property<DateTime>("ketthuc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("sgtcode")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("sokhach")
-                        .HasColumnType("int");
-
-                    b.Property<string>("tuyentq")
-                        .HasColumnType("varchar(250)")
-                        .HasMaxLength(250);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SGTCodeModels");
                 });
 
             modelBuilder.Entity("EMD.Data.Models.User", b =>

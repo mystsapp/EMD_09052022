@@ -65,7 +65,74 @@ namespace EMD.Controllers
             }
             else
                 return Content("");
+
         }
+
+        public async Task<IActionResult> DienGiaiBySGTCode(string sgtCode)
+        {
+            var dsDienGiai = await _unitOfWork.emdRepository.DienGiaiBySGTCode(sgtCode);
+            var ds = await _unitOfWork.emdRepository.GetBySGTCode(sgtCode);
+
+            var dienGiaiVM = new DienGiaiViewModel()
+            {
+                Tour = ds.tuyentq + " " + ds.batdau.ToString("dd/MM/yyyy") + "-" + ds.ketthuc.ToString("dd/MM/yyyy") + " * " + ds.sokhach + "pax",
+                CacVeTuCTHK = "Các vé đã xuất bên CTHK: \n",
+                SLVeDaXuat = "Số lượng vé đã xuất: ",
+                SoTienDaXuat = "Số tiền đã xuất: "
+            };
+
+            if (dsDienGiai != null)
+            {
+                string cacVe = "";
+                int slVe = 0;
+                decimal soTien = 0;
+
+                
+                foreach (var item in dsDienGiai)
+                {
+                    int lastItem = dsDienGiai.ToList().IndexOf(item);
+                    if (lastItem != dsDienGiai.Count() - 1)
+                    {
+                        // this is the last item
+                      cacVe += item.number.ToString() + "-" + item.nguoicapnhat + "\n";
+                    }
+                    else
+                    {
+                        cacVe += item.number.ToString() + "-" + item.nguoicapnhat;
+                    }
+                    slVe += item.slve;
+                    soTien += item.giave + item.lephi + item.thuesb + item.thuevat + item.phidv;
+                }
+
+                dienGiaiVM.CacVeTuCTHK += cacVe.ToString();
+                dienGiaiVM.SLVeDaXuat += slVe.ToString();
+                dienGiaiVM.SoTienDaXuat += soTien.ToString("N0");
+
+                //var stringName = dienGiaiVM.Tour + dienGiaiVM.CacVeTuCTHK + dienGiaiVM.SLVeDaXuat + dienGiaiVM.SoTienDaXuat;
+                return Json(new
+                {
+                    status = true,
+                    data = dienGiaiVM
+                });
+            }
+            else
+                return Content("");
+        }
+
+        //public async Task<IActionResult> DienGiaiBySGTCode(string sgtCode)
+        //{
+        //    var ds = await _unitOfWork.emdRepository.DienGiaiBySGTCode(sgtCode);
+        //    if (ds != null)
+        //    {
+        //        return Json(new
+        //        {
+        //            status = true,
+        //            data = ds
+        //        });
+        //    }
+        //    else
+        //        return Content("");
+        //}
 
         // Get: Edit method
         public async Task<IActionResult> Edit(int? id)

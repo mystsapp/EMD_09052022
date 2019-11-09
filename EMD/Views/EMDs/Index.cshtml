@@ -75,7 +75,7 @@
                     <tbody>
                         @foreach (var item in Model.EMDTbls)
                         {
-                        <tr>
+                        <tr class="cursor-pointer">
                             <partial name="_TableButtonPartial" model="item.Id" />
 
                             <td>@Html.DisplayFor(m => item.SGTCode)</td>

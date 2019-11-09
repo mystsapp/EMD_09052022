@@ -37,6 +37,7 @@ namespace EMD.Controllers
         // Get Create method
         public IActionResult Create()
         {
+
             return View(UserVM);
         }
 
@@ -51,6 +52,8 @@ namespace EMD.Controllers
             }
 
             UserVM.User.Password = MaHoaSHA1.EncodeSHA1(UserVM.User.Password);
+            UserVM.User.Username = UserVM.UsernameCreate;
+
             _unitOfWork.userRepository.Create(UserVM.User);
             await _unitOfWork.Complete();
             return RedirectToAction(nameof(Index));
@@ -74,6 +77,9 @@ namespace EMD.Controllers
             if (userEditVM.User == null)
                 return NotFound();
 
+            userEditVM.UsernameEdit = userEditVM.User.Username;
+            userEditVM.Username = userEditVM.User.Username;
+
             return View(userEditVM);
         }
 
@@ -91,6 +97,8 @@ namespace EMD.Controllers
                 {
                     userEditVM.User.Password = userEditVM.OldPass;
                 }
+
+                userEditVM.User.Username = userEditVM.UsernameEdit;
 
                 _unitOfWork.userRepository.Update(userEditVM.User);
                 await _unitOfWork.Complete();
@@ -158,11 +166,22 @@ namespace EMD.Controllers
         }
 
         [AcceptVerbs("get", "post")]
-        public IActionResult UsersExists(string Username)
+        public IActionResult UsersExists(string UsernameCreate)
         {
             bool result = false;
-            var user = _unitOfWork.userRepository.Find(x => x.Username == Username);
+            var user = _unitOfWork.userRepository.Find(x => x.Username.ToLower() == UsernameCreate.ToLower());
             if (user.Count() == 0)
+                result = true;
+            return Json(result);
+        }
+        
+        [AcceptVerbs("get", "post")]
+        public IActionResult UsersEditExists(string UsernameEdit, string Username)
+        {
+            bool result = false;
+            var user = _unitOfWork.userRepository.Find(x => x.Username.ToLower() == UsernameEdit.ToLower());
+            var count = user.Count();
+            if (count == 0 || (UsernameEdit == Username))
                 result = true;
             return Json(result);
         }

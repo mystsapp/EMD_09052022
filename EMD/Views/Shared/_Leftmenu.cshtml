@@ -41,27 +41,33 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="ThietBis" asp-action="Index" class="nav-link">
+                            <a asp-area="" asp-controller="ThongKes" asp-action="TheoNgayBay" class="nav-link" data-toggle="modal" data-target="#theoNgayBayModal">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Thiết bị</p>
+                                <p>Theo ngày bay</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a asp-area="" asp-controller="LoaiThietBis" asp-action="Index" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Loại thiết bị</p>
+                                <p>Theo ngày đặt cọc</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a asp-area="" asp-controller="PhanMems" asp-action="Index" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Phần mềm</p>
+                                <p>Theo ngày hết hạn</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a asp-area="" asp-controller="LoaiPhanMems" asp-action="Index" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Loại phần mềm</p>
+                                <p>Theo đối tượng booking</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="LoaiPhanMems" asp-action="Index" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Các đoàn chưa hoàn cọc</p>
                             </a>
                         </li>
                     </ul>
@@ -71,67 +77,44 @@
 
                 @{
                     var roleName = HttpContextAccessor.HttpContext.Session.Get<User>("ssUser").Role.Name.Equals("Admin");
-                } 
+                }
                 @if (roleName)
                 {
-            <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>
-                        Account & Role
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Users" asp-action="Index" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Account</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Role</p>
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Account & Role
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Users" asp-action="Index" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Account</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Role</p>
+                                </a>
+                            </li>
+
+
+                        </ul>
                     </li>
-
-
-                </ul>
-            </li>
                 }
-                   
 
-                @* Quan Tri *@
-                @*<li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Quản Trị
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="ChiNhanhs" asp-action="Index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Chi Nhánh</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="VanPhongs" asp-action="Index" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Văn Phòng</p>
-                            </a>
-                        </li>*@
+
 
 
             </ul>
-            </li>
 
-            </ul>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
 </aside>
+<partial name="~/Views/Shared/_TheoNgayBay.cshtml" />

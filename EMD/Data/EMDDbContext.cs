@@ -19,5 +19,6 @@ namespace EMD.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<ChiNhanh> ChiNhanhs { get; set; }
         public DbSet<DMDaiLy> DMDaiLies { get; set; }
+        public DbSet<DienGiaiModel> DienGiaiModels { get; set; }
     }
 }

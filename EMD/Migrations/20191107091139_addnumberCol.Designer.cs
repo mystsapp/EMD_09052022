@@ -4,14 +4,16 @@ using EMD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMD.Migrations
 {
     [DbContext(typeof(EMDDbContext))]
-    partial class EMDDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191107091139_addnumberCol")]
+    partial class addnumberCol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -255,22 +257,19 @@ namespace EMD.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("diemtq")
-                        .HasColumnType("varchar(250)")
-                        .HasMaxLength(250);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ketthuc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("sgtcode")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("sokhach")
                         .HasColumnType("int");
 
                     b.Property<string>("tuyentq")
-                        .HasColumnType("varchar(250)")
-                        .HasMaxLength(250);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

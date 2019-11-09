@@ -60,8 +60,9 @@
                             <label asp-for="User.Username"></label>
                         </div>
                         <div class="col-4">
-                            <input class="form-control" asp-for="User.Username" />
-                            <span class="text-danger" asp-validation-for="User.Username"></span>
+                            <input class="form-control" asp-for="UsernameEdit" />
+                            <input type="hidden" asp-for="Username" />
+                            <span class="text-danger" asp-validation-for="UsernameEdit"></span>
                         </div>
 
                         <div class="col-2">

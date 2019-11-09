@@ -11218,7 +11218,7 @@
 		 *      } );
 		 *    } )
 		 */
-		"iDisplayLength": 10,
+		"iDisplayLength": 5, /* chiều dài hiển thị bảng */
 	
 	
 		/**

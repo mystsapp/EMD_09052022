@@ -1,0 +1,59 @@
+﻿
+<div class="modal fade" id="theoNgayBayModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-secondary">
+            <div class="modal-header">
+                <h4 class="modal-title">Báo cáo theo ngày bay</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form id="frmTheoNgayBay" asp-action="TheoNgayBay" asp-controller="ThongKes" method="post" autocomplete="off">
+
+                    <div class="form-group row">
+                        <div class="col-1">
+                            <label class="control-label">Từ ngày</label>
+                        </div>
+                        <div class="col-3">
+                            <input name="tuNgay" class="form-control maskInput datepicker" />
+
+                        </div>
+
+
+                        <div class="col-1">
+                            <label class="control-label">Đến ngày</label>
+                        </div>
+                        <div class="col-3">
+                            <input name="denNgay" class="form-control maskInput datepicker" />
+                        </div>
+
+                        <div class="col-4">
+                            <input class="btn btn-block btn-primary" type="submit" value="Báo cáo"/>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+    <script>
+
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: 'dd/mm/yy'
+            });
+        });
+    </script>
