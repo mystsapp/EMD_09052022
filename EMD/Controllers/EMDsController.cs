@@ -46,6 +46,8 @@ namespace EMD.Controllers
             }
 
             EMDViewModel.EMDTbl.Create = DateTime.Now;
+            EMDViewModel.EMDTbl.SGTCode = EMDViewModel.EMDTbl.SGTCode.ToUpper();
+            EMDViewModel.EMDTbl.HangHK = EMDViewModel.EMDTbl.HangHK.ToUpper();
             _unitOfWork.emdRepository.Create(EMDViewModel.EMDTbl);
             await _unitOfWork.Complete();
             return RedirectToAction(nameof(Index));
@@ -172,6 +174,20 @@ namespace EMD.Controllers
 
         // Get: Details method
         public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            EMDViewModel.EMDTbl = await _unitOfWork.emdRepository.GetByIdAsync(id);
+
+            if (EMDViewModel.EMDTbl == null)
+                return NotFound();
+
+            return View(EMDViewModel);
+        }
+        
+        // Get: Details method
+        public async Task<IActionResult> DetailById(int id)
         {
             if (id == null)
                 return NotFound();

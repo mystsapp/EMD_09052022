@@ -18,6 +18,11 @@ namespace EMD.Data.Repository
         Task<IEnumerable<DienGiaiModel>> DienGiaiBySGTCode(string sgtCode);
 
         DataTable TheoNgayBay_Report(string tuNgay, string denNgay);
+        DataTable TheoNgayDC_Report(string tuNgay, string denNgay);
+        DataTable TheoNgayHetHan_Report(string tuNgay, string denNgay);
+        DataTable TheoDoiTuongBK_NgayBay_Report(string tuNgay, string denNgay);
+
+        DataTable TheoDoanChuaHoanCoc_Report(string tuNgay, string denNgay);
     }
     public class EMDRepository : Repository<EMDTbl>, IEMDRepository
     {
@@ -51,7 +56,167 @@ namespace EMD.Data.Repository
             try
             {
                 DataTable dt = new DataTable();
-                var result = _context.EMDs.Where(x => x.BatDau >= tu && x.BatDau <= den.AddDays(1)).Select(p => new
+                var result = _context.EMDs.Where(x => x.BatDau >= tu && x.BatDau < den.AddDays(1)).Select(p => new
+                {
+                    p.Id,
+                    p.SGTCode,
+                    p.BatDau,
+                    p.KetThuc,
+                    p.SLVeDatCoc,
+                    p.NgayDC,
+                    p.HetHan,
+                    p.Number,
+                    p.STDatCoc,
+                    p.LoaiBK,
+                    p.SLVeDaXuat,
+                    p.TienPhat,
+                    p.PNR,
+                    p.HoanCoc,
+                    p.GhiChu
+                });
+                var count = result.Count();
+
+                dt = EntityToTable.ToDataTable(result);
+                if (dt.Rows.Count > 0)
+                    return dt;
+                else
+                    return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        
+        public DataTable TheoNgayDC_Report(string tuNgay, string denNgay)
+        {
+            DateTime tu = Convert.ToDateTime(tuNgay);
+            DateTime den = Convert.ToDateTime(denNgay);
+
+            try
+            {
+                DataTable dt = new DataTable();
+                var result = _context.EMDs.Where(x => x.NgayDC >= tu && x.NgayDC < den.AddDays(1)).Select(p => new
+                {
+                    p.Id,
+                    p.SGTCode,
+                    p.BatDau,
+                    p.KetThuc,
+                    p.SLVeDatCoc,
+                    p.NgayDC,
+                    p.HetHan,
+                    p.Number,
+                    p.STDatCoc,
+                    p.LoaiBK,
+                    p.SLVeDaXuat,
+                    p.TienPhat,
+                    p.PNR,
+                    p.HoanCoc,
+                    p.GhiChu
+                });
+                var count = result.Count();
+
+                dt = EntityToTable.ToDataTable(result);
+                if (dt.Rows.Count > 0)
+                    return dt;
+                else
+                    return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        
+        public DataTable TheoNgayHetHan_Report(string tuNgay, string denNgay)
+        {
+            DateTime tu = Convert.ToDateTime(tuNgay);
+            DateTime den = Convert.ToDateTime(denNgay);
+
+            try
+            {
+                DataTable dt = new DataTable();
+                var result = _context.EMDs.Where(x => x.HetHan >= tu && x.HetHan < den.AddDays(1)).Select(p => new
+                {
+                    p.Id,
+                    p.SGTCode,
+                    p.BatDau,
+                    p.KetThuc,
+                    p.SLVeDatCoc,
+                    p.NgayDC,
+                    p.HetHan,
+                    p.Number,
+                    p.STDatCoc,
+                    p.LoaiBK,
+                    p.SLVeDaXuat,
+                    p.TienPhat,
+                    p.PNR,
+                    p.HoanCoc,
+                    p.GhiChu
+                });
+                var count = result.Count();
+
+                dt = EntityToTable.ToDataTable(result);
+                if (dt.Rows.Count > 0)
+                    return dt;
+                else
+                    return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public DataTable TheoDoiTuongBK_NgayBay_Report(string tuNgay, string denNgay)
+        {
+            DateTime tu = Convert.ToDateTime(tuNgay);
+            DateTime den = Convert.ToDateTime(denNgay);
+
+            try
+            {
+                DataTable dt = new DataTable();
+                var result = _context.EMDs.Where(x => x.BatDau >= tu && x.BatDau < den.AddDays(1) && string.IsNullOrEmpty(x.LoaiBK)).Select(p => new
+                {
+                    p.Id,
+                    p.SGTCode,
+                    p.BatDau,
+                    p.KetThuc,
+                    p.SLVeDatCoc,
+                    p.NgayDC,
+                    p.HetHan,
+                    p.Number,
+                    p.STDatCoc,
+                    p.LoaiBK,
+                    p.SLVeDaXuat,
+                    p.TienPhat,
+                    p.PNR,
+                    p.HoanCoc,
+                    p.GhiChu
+                });
+                var count = result.Count();
+
+                dt = EntityToTable.ToDataTable(result);
+                if (dt.Rows.Count > 0)
+                    return dt;
+                else
+                    return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public DataTable TheoDoanChuaHoanCoc_Report(string tuNgay, string denNgay)
+        {
+            DateTime tu = Convert.ToDateTime(tuNgay);
+            DateTime den = Convert.ToDateTime(denNgay);
+
+            try
+            {
+                DataTable dt = new DataTable();
+                var result = _context.EMDs.Where(x => x.BatDau >= tu && x.BatDau < den && string.IsNullOrEmpty(x.HoanCoc.ToString())).Select(p => new
                 {
                     p.Id,
                     p.SGTCode,

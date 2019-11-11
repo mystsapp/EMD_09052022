@@ -52,27 +52,13 @@ var createController = {
                         //console.log(response.data);
 
                         var data = response.data;
-                        var stringName = data.tour + '\n' + data.cacVeTuCTHK + '\n' + data.slVeDaXuat + '\n'+ data.soTienDaXuat;
+                        var stringName = data.tour + '\n' + data.cacVeTuCTHK + '\n' + data.slVeDaXuat + '\n' + data.soTienDaXuat;
+
+                        var slv = data.slVeDaXuat.split(' ');
+                        
+                        $('#txtSLVeDaXuat').val(parseInt(slv[5]));
                         $('#txtDienGiai').val(stringName);
-                        //var data = response.data;
-                        //string number = '';
-                        //int slve;
-                        //int sotiendaxuat;
-
-                        //$.each(data, function (i, item) {
-                            
-                        //    number += item.number + '-' + item.nguoicapnhat + '\n';
-                        //    slve += item.slve;
-                        //    sotiendaxuat += item.giave + item.lephi + item.thuesb + item.thuevat + item.phidv;
-
-                        //    });
-
-                        //});
-                        //$('#tblData').html(html);
-                        //homeController.paging(response.total, function () {
-                        //    homeController.LoadData();
-                        //}, changePageSize);
-                        //homeController.registerEvent();
+                        
                     }
                     else {
                         $('#txtDienGiai').val('');
@@ -89,6 +75,10 @@ var createController = {
             $(this).val(function (index, value) {
                 return addCommas(value);
             });
+        });
+
+        $(".datepicker").datepicker({
+            dateFormat: 'dd/mm/yy'
         });
     }
 

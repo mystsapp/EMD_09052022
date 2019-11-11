@@ -41,31 +41,31 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="ThongKes" asp-action="TheoNgayBay" class="nav-link" data-toggle="modal" data-target="#theoNgayBayModal">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#theoNgayBayModal">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Theo ngày bay</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="LoaiThietBis" asp-action="Index" class="nav-link">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#theoNgayDCModal">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Theo ngày đặt cọc</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="PhanMems" asp-action="Index" class="nav-link">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#theoNgayHetHanModal">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Theo ngày hết hạn</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="LoaiPhanMems" asp-action="Index" class="nav-link">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#theoDoiTuongBKModal">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Theo đối tượng booking</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="LoaiPhanMems" asp-action="Index" class="nav-link">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#doanChuaHCModal">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Các đoàn chưa hoàn cọc</p>
                             </a>
@@ -118,3 +118,7 @@
     <!-- /.sidebar -->
 </aside>
 <partial name="~/Views/Shared/_TheoNgayBay.cshtml" />
+<partial name="~/Views/Shared/_TheoNgayDC.cshtml" />
+<partial name="~/Views/Shared/_TheoNgayHetHan.cshtml" />
+<partial name="~/Views/Shared/_TheoDoiTuongBK.cshtml" />
+<partial name="~/Views/Shared/_DoanChuaHC.cshtml" />

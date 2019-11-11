@@ -13,6 +13,15 @@
             }
 
         });
+
+        $('.cursor-pointer .tdVal').click(function () {
+            var id = $(this).data('id');
+            var url = "/EMDs/DetailById";
+            $.get(url, { id: id }, function (data) {
+                console.log(data);
+                $('#detialsById').html(data);
+            });
+        });
     }
 
 };
