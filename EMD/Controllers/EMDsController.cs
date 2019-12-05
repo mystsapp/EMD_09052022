@@ -22,16 +22,19 @@ namespace EMD.Controllers
             {
                 EMDTbls = _unitOfWork.emdRepository.GetAll(),
                 EMDTbl = new Data.Models.EMDTbl()
+                
             };
         }
         public IActionResult Index()
         {
-            
+
             return View(EMDViewModel);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            EMDViewModel.HangHKs = await _unitOfWork.emdRepository.GetHangHKs();
+            EMDViewModel.EMDTbl.NgayDC = DateTime.Parse(DateTime.Now.ToShortDateString());
             return View(EMDViewModel);
         }
 
@@ -47,7 +50,11 @@ namespace EMD.Controllers
 
             EMDViewModel.EMDTbl.Create = DateTime.Now;
             EMDViewModel.EMDTbl.SGTCode = EMDViewModel.EMDTbl.SGTCode.ToUpper();
-            EMDViewModel.EMDTbl.HangHK = EMDViewModel.EMDTbl.HangHK.ToUpper();
+
+            string hangHK = EMDViewModel.EMDTbl.HangHK;
+            if (!string.IsNullOrEmpty(hangHK))
+                EMDViewModel.EMDTbl.HangHK = EMDViewModel.EMDTbl.HangHK.ToUpper();
+
             _unitOfWork.emdRepository.Create(EMDViewModel.EMDTbl);
             await _unitOfWork.Complete();
             return RedirectToAction(nameof(Index));
@@ -80,7 +87,9 @@ namespace EMD.Controllers
                 Tour = ds.tuyentq + " " + ds.batdau.ToString("dd/MM/yyyy") + "-" + ds.ketthuc.ToString("dd/MM/yyyy") + " * " + ds.sokhach + "pax",
                 CacVeTuCTHK = "Các vé đã xuất bên CTHK: \n",
                 SLVeDaXuat = "Số lượng vé đã xuất: ",
-                SoTienDaXuat = "Số tiền đã xuất: "
+                SoTienDaXuat = "Số tiền đã xuất: ",
+
+                NguoiNhap = dsDienGiai.FirstOrDefault().nguoinhap
             };
 
             if (dsDienGiai != null)
@@ -89,18 +98,18 @@ namespace EMD.Controllers
                 int slVe = 0;
                 decimal soTien = 0;
 
-                
+
                 foreach (var item in dsDienGiai)
                 {
                     int lastItem = dsDienGiai.ToList().IndexOf(item);
                     if (lastItem != dsDienGiai.Count() - 1)
                     {
                         // this is the last item
-                      cacVe += item.number.ToString() + "-" + item.nguoicapnhat + "\n";
+                        cacVe += item.number.ToString() + " - " + item.nguoicapnhat + " - " + item.slve.ToString() + " vé" + "\n";
                     }
                     else
                     {
-                        cacVe += item.number.ToString() + "-" + item.nguoicapnhat;
+                        cacVe += item.number.ToString() + " - " + item.nguoicapnhat + " - " + item.slve.ToString() + " vé";
                     }
                     slVe += item.slve;
                     soTien += item.giave + item.lephi + item.thuesb + item.thuevat + item.phidv;
@@ -109,6 +118,7 @@ namespace EMD.Controllers
                 dienGiaiVM.CacVeTuCTHK += cacVe.ToString();
                 dienGiaiVM.SLVeDaXuat += slVe.ToString();
                 dienGiaiVM.SoTienDaXuat += soTien.ToString("N0");
+                dienGiaiVM.TienXuatVe = soTien;
 
                 //var stringName = dienGiaiVM.Tour + dienGiaiVM.CacVeTuCTHK + dienGiaiVM.SLVeDaXuat + dienGiaiVM.SoTienDaXuat;
                 return Json(new
@@ -185,9 +195,9 @@ namespace EMD.Controllers
 
             return View(EMDViewModel);
         }
-        
+
         // Get: Details method
-        public async Task<IActionResult> DetailById(int id)
+        public async Task<IActionResult> DetailById(int? id)
         {
             if (id == null)
                 return NotFound();

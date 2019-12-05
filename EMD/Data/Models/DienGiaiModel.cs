@@ -23,5 +23,9 @@ namespace EMD.Data.Models
         public decimal phidv { get; set; }
         [MaxLength(50), Column(TypeName = "varchar(50)")]
         public string number { get; set; }
+
+
+        [MaxLength(50), Column(TypeName = "varchar(50)")]
+        public string nguoinhap { get; set; }
     }
 }

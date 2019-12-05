@@ -21,7 +21,7 @@ var createController = {
 
 
                     if (response.status) {
-                       // console.log(response.data);
+                        console.log(response.data);
                         var list = response.data.split('#');
                         $('#txtBatDau').val(list[1]);
                         $('#txtKetThuc').val(list[2]);
@@ -55,8 +55,11 @@ var createController = {
                         var stringName = data.tour + '\n' + data.cacVeTuCTHK + '\n' + data.slVeDaXuat + '\n' + data.soTienDaXuat;
 
                         var slv = data.slVeDaXuat.split(' ');
+
+                       // $('#txtTienXuatVe').val(numeral(data.tienXuatVe).format('0,0'));
+                        //$('#txtNguoiNhap').val(data.nguoiNhap);
                         
-                        $('#txtSLVeDaXuat').val(parseInt(slv[5]));
+                        //$('#txtSLVeDaXuat').val(parseInt(slv[5]));
                         $('#txtDienGiai').val(stringName);
                         
                     }

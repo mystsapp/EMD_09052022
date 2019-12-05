@@ -101,7 +101,6 @@ namespace EMD.Data.Models
         [MaxLength(50), Column(TypeName = "varchar(50)")]
         public string Tracking { get; set; }
 
-        [DisplayName("Code Máy Bay")]
         [MaxLength(50), Column(TypeName = "varchar(50)")]
         public string PNR { get; set; }
 

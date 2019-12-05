@@ -16,6 +16,7 @@ namespace EMD.Data.Repository
     {
         Task<SGTCodeModel> GetBySGTCode(string sgtCode);
         Task<IEnumerable<DienGiaiModel>> DienGiaiBySGTCode(string sgtCode);
+        Task<IEnumerable<HangHK>> GetHangHKs();
 
         DataTable TheoNgayBay_Report(string tuNgay, string denNgay);
         DataTable TheoNgayDC_Report(string tuNgay, string denNgay);
@@ -246,6 +247,13 @@ namespace EMD.Data.Repository
             {
                 return null;
             }
+        }
+
+        public async Task<IEnumerable<HangHK>> GetHangHKs()
+        {
+            var result = await _context.HangHKs.FromSqlRaw("SELECT * FROM dbo.V_HangHK").ToListAsync();
+
+            return result;
         }
     }
 }

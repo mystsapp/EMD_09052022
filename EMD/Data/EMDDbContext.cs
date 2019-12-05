@@ -20,5 +20,7 @@ namespace EMD.Data
         public DbSet<ChiNhanh> ChiNhanhs { get; set; }
         public DbSet<DMDaiLy> DMDaiLies { get; set; }
         public DbSet<DienGiaiModel> DienGiaiModels { get; set; }
+        public DbSet<HangHK> HangHKs { get; set; }
+        public DbSet<HoanVeModel> HoanVeModels { get; set; }
     }
 }

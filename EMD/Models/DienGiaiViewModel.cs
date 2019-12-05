@@ -11,5 +11,8 @@ namespace EMD.Models
         public string CacVeTuCTHK { get; set; }
         public string SLVeDaXuat { get; set; }
         public string SoTienDaXuat { get; set; }
+
+        public string NguoiNhap { get; set; }
+        public decimal TienXuatVe { get; set; }
     }
 }

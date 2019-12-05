@@ -1,5 +1,6 @@
 ﻿@model EMDViewModel
 @using Microsoft.AspNetCore.Http
+@using EMD.Extensions
 @using EMD.Utilities
 @inject IHttpContextAccessor HttpContextAccessor
 
@@ -83,7 +84,7 @@
                             <label asp-for="EMDTbl.NgayDC" class="control-label"></label>
                         </div>
                         <div class="col-3">
-                            <input type="text" value="" asp-for="EMDTbl.NgayDC" class="form-control datepicker maskInput" />
+                            <input type="text" asp-for="EMDTbl.NgayDC" class="form-control datepicker maskInput" />
                             <span asp-validation-for="EMDTbl.NgayDC" class="text-danger"></span>
                         </div>
 
@@ -120,7 +121,8 @@
                             <label asp-for="EMDTbl.HangHK" class="control-label"></label>
                         </div>
                         <div class="col-3">
-                            <input asp-for="EMDTbl.HangHK" class="form-control" />
+                            @*<input asp-for="EMDTbl.HangHK" class="form-control" />*@
+                            <select class="form-control" asp-for="EMDTbl.HangHK" asp-items="@Model.HangHKs.ToSelectListItemString(Model.EMDTbl.HangHK)"></select>
                             <span asp-validation-for="EMDTbl.HangHK" class="text-danger"></span>
                         </div>
 
@@ -170,7 +172,7 @@
                             <label asp-for="EMDTbl.TienXuatVe" class="control-label"></label>
                         </div>
                         <div class="col-3">
-                            <input asp-for="EMDTbl.TienXuatVe" class="form-control numbers" />
+                            <input asp-for="EMDTbl.TienXuatVe" class="form-control numbers" id="txtTienXuatVe" />
                             <span asp-validation-for="EMDTbl.TienXuatVe" class="text-danger"></span>
                         </div>
 
@@ -257,7 +259,7 @@
                             <label asp-for="EMDTbl.NguoiNhap" class="control-label"></label>
                         </div>
                         <div class="col-3">
-                            <input asp-for="EMDTbl.NguoiNhap" value="@userName" class="form-control" readonly />
+                            <input asp-for="EMDTbl.NguoiNhap" value="@userName" class="form-control " id="txtNguoiNhap" readonly />
                             <span asp-validation-for="EMDTbl.NguoiNhap" class="text-danger"></span>
                         </div>
 
@@ -299,11 +301,11 @@
 @section Scripts{
     @*<script>
 
-        $(function () {
-            $(".datepicker").datepicker({
-                dateFormat: 'dd/mm/yy'
+            $(function () {
+                $(".datepicker").datepicker({
+                    dateFormat: 'dd/mm/yy'
+                });
             });
-        });
-    </script>*@
+        </script>*@
     <script src="~/js/Admin/EMD/createController.js"></script>
 }

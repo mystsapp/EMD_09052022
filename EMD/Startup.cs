@@ -44,17 +44,7 @@ namespace EMD
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            //});
-
-            //services.Configure<RequestLocalizationOptions>(options =>
-            //{
-            //    options.DefaultRequestCulture = new RequestCulture("fr");
-            //});
-
-            //services.AddMvc(o =>
-            //{
-            //    o.ModelBinderProviders.Insert(0, new DateTimeOffsetModelBinderProvider());
-            //});
+           
 
             //services.Configure<IdentityOptions>(options =>
             //{

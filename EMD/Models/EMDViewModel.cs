@@ -10,5 +10,6 @@ namespace EMD.Models
     {
         public IEnumerable<EMDTbl> EMDTbls { get; set; }
         public EMDTbl EMDTbl { get; set; }
+        public IEnumerable<HangHK> HangHKs { get; set; }
     }
 }
