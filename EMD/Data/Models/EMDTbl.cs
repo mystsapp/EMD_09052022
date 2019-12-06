@@ -109,5 +109,13 @@ namespace EMD.Data.Models
 
         [DisplayName("Diễn Giải")]
         public string DienGiai { get; set; }
+
+        [DisplayName("Vé Hoàn")]
+        [MaxLength(50), Column(TypeName = "varchar(50)")]
+        public string SLVeHoan { get; set; }
+
+        [DisplayName("Thực Trả")]
+        [MaxLength(50), Column(TypeName = "varchar(50)")]
+        public string ThucTra { get; set; }
     }
 }

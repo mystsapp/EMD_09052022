@@ -4,14 +4,16 @@ using EMD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMD.Migrations
 {
     [DbContext(typeof(EMDDbContext))]
-    partial class EMDDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191206015258_fixCol1")]
+    partial class fixCol1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,18 +208,10 @@ namespace EMD.Migrations
                     b.Property<int>("SLVeDatCoc")
                         .HasColumnType("int");
 
-                    b.Property<string>("SLVeHoan")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
-
                     b.Property<decimal>("STDatCoc")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SoCTPhat")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("ThucTra")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 

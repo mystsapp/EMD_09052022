@@ -4,14 +4,16 @@ using EMD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMD.Migrations
 {
     [DbContext(typeof(EMDDbContext))]
-    partial class EMDDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191205073235_fixCol")]
+    partial class fixCol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,18 +208,10 @@ namespace EMD.Migrations
                     b.Property<int>("SLVeDatCoc")
                         .HasColumnType("int");
 
-                    b.Property<string>("SLVeHoan")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
-
                     b.Property<decimal>("STDatCoc")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("SoCTPhat")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("ThucTra")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -261,12 +255,6 @@ namespace EMD.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("giave")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("lephi")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("nguoicapnhat")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
@@ -274,9 +262,6 @@ namespace EMD.Migrations
                     b.Property<string>("number")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
-
-                    b.Property<decimal>("phidv")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("phihoan")
                         .HasColumnType("decimal(18,2)");
@@ -288,10 +273,10 @@ namespace EMD.Migrations
                     b.Property<int>("slve")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("thuesb")
+                    b.Property<decimal>("thuctra")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("thuevat")
+                    b.Property<decimal>("tongthanhtoan")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");

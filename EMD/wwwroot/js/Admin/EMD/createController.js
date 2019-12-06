@@ -21,9 +21,10 @@ var createController = {
 
 
                     if (response.status) {
-                        console.log(response.data);
+                        //console.log(response.data);
                         var list = response.data.split('#');
-                        $('#txtBatDau').val(list[1]);
+                        var a = list[1];
+                        $('#txtBatDau').val(a);
                         $('#txtKetThuc').val(list[2]);
                         //$('#tuyentq').val(list[3]);
                         //$('#nuocden').val(list[4]);
@@ -39,11 +40,13 @@ var createController = {
                 }
             });
 
+            var number1 = $('#txtNumber1').val();
             $.ajax({
                 url: '/EMDs/DienGiaiBySGTCode',
                 type: 'GET',
                 data: {
-                    sgtCode: codedoan
+                    sgtCode: codedoan,
+                    number1: number1
                 },
                 success: function (response) {
 
@@ -52,16 +55,28 @@ var createController = {
                         //console.log(response.data);
 
                         var data = response.data;
-                        var stringName = data.tour + '\n' + data.cacVeTuCTHK + '\n' + data.slVeDaXuat + '\n' + data.soTienDaXuat;
+                        var stringName = data.tour + '\n' + data.cacVeTuCTHK + '\n' + data.slVeDaXuat + '\n' + data.soTienDaXuat + '\n' +
+                            data.cacVeHoanBenCTHK + data.tongThanhToan + data.phiHoan + data.thucTra;
 
-                        var slv = data.slVeDaXuat.split(' ');
+                        //var slv = data.slVeDaXuat.split(' ');
 
-                       // $('#txtTienXuatVe').val(numeral(data.tienXuatVe).format('0,0'));
+                        // $('#txtTienXuatVe').val(numeral(data.tienXuatVe).format('0,0'));
                         //$('#txtNguoiNhap').val(data.nguoiNhap);
-                        
+
                         //$('#txtSLVeDaXuat').val(parseInt(slv[5]));
+
+
                         $('#txtDienGiai').val(stringName);
-                        
+
+                        if (data.number2 !== '') {
+                            $('#txtSLVeHoan').val(data.slVeHoan);
+                            $('#txtThucTra').val(data.thucTraNum);
+                        }
+                        else {
+                            $('#txtSLVeHoan').val(0);
+                            $('#txtThucTra').val(0);
+                        }
+
                     }
                     else {
                         $('#txtDienGiai').val('');
@@ -69,6 +84,34 @@ var createController = {
                 }
             });
         });
+
+        //$('#txtNumber1').on('change', function () {
+        //    codedoan = $('#txtSgtCode').val().toUpperCase();
+        //    var number1 = $(this).val();
+
+        //    $.ajax({
+        //        url: '/EMDs/DienGiaiBySGTCode',
+        //        type: 'GET',
+        //        data: {
+        //            sgtCode: codedoan,
+        //            number1: number1
+        //        },
+        //        success: function (response) {
+
+        //            if (response.status) {
+        //                var data = response.data;
+        //                if (data.number2 !== '') {
+        //                    $('#txtSLVeHoan').val(data.slVeHoan);
+        //                    $('#txtThucTra').val(data.thucTraNum);
+        //                }
+        //            }
+        //            else {
+        //                $('#txtSLVeHoan').val(0);
+        //                $('#txtThucTra').val(0);
+        //            }
+        //        }
+        //    });
+        //});
 
         $('input.numbers').keyup(function (event) {
 

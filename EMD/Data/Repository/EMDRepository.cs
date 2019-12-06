@@ -17,6 +17,7 @@ namespace EMD.Data.Repository
         Task<SGTCodeModel> GetBySGTCode(string sgtCode);
         Task<IEnumerable<DienGiaiModel>> DienGiaiBySGTCode(string sgtCode);
         Task<IEnumerable<HangHK>> GetHangHKs();
+        Task<IEnumerable<HoanVeModel>> GetHoanVes(string sgtCode);
 
         DataTable TheoNgayBay_Report(string tuNgay, string denNgay);
         DataTable TheoNgayDC_Report(string tuNgay, string denNgay);
@@ -252,6 +253,13 @@ namespace EMD.Data.Repository
         public async Task<IEnumerable<HangHK>> GetHangHKs()
         {
             var result = await _context.HangHKs.FromSqlRaw("SELECT * FROM dbo.V_HangHK").ToListAsync();
+
+            return result;
+        }
+        
+        public async Task<IEnumerable<HoanVeModel>> GetHoanVes(string sgtCode)
+        {
+            var result = await _context.HoanVeModels.FromSqlRaw("EXECUTE dbo.spHoanVe {0}", sgtCode).ToListAsync();
 
             return result;
         }

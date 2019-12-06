@@ -33,6 +33,7 @@ namespace EMD.Controllers
 
         public async Task<IActionResult> Create()
         {
+
             EMDViewModel.HangHKs = await _unitOfWork.emdRepository.GetHangHKs();
             EMDViewModel.EMDTbl.NgayDC = DateTime.Parse(DateTime.Now.ToShortDateString());
             return View(EMDViewModel);
@@ -77,10 +78,14 @@ namespace EMD.Controllers
 
         }
 
-        public async Task<IActionResult> DienGiaiBySGTCode(string sgtCode)
+        public async Task<IActionResult> DienGiaiBySGTCode(string sgtCode, string number1)
         {
             var dsDienGiai = await _unitOfWork.emdRepository.DienGiaiBySGTCode(sgtCode);
             var ds = await _unitOfWork.emdRepository.GetBySGTCode(sgtCode);
+
+            var hoanves = await _unitOfWork.emdRepository.GetHoanVes(sgtCode);
+
+            var numList = new List<string>();
 
             var dienGiaiVM = new DienGiaiViewModel()
             {
@@ -90,9 +95,11 @@ namespace EMD.Controllers
                 SoTienDaXuat = "Số tiền đã xuất: ",
 
                 NguoiNhap = dsDienGiai.FirstOrDefault().nguoinhap
+
+                
             };
 
-            if (dsDienGiai != null)
+            if (dsDienGiai.Count() != 0)
             {
                 string cacVe = "";
                 int slVe = 0;
@@ -101,6 +108,7 @@ namespace EMD.Controllers
 
                 foreach (var item in dsDienGiai)
                 {
+
                     int lastItem = dsDienGiai.ToList().IndexOf(item);
                     if (lastItem != dsDienGiai.Count() - 1)
                     {
@@ -113,22 +121,85 @@ namespace EMD.Controllers
                     }
                     slVe += item.slve;
                     soTien += item.giave + item.lephi + item.thuesb + item.thuevat + item.phidv;
+
+                    
                 }
 
                 dienGiaiVM.CacVeTuCTHK += cacVe.ToString();
                 dienGiaiVM.SLVeDaXuat += slVe.ToString();
                 dienGiaiVM.SoTienDaXuat += soTien.ToString("N0");
                 dienGiaiVM.TienXuatVe = soTien;
-
+                
                 //var stringName = dienGiaiVM.Tour + dienGiaiVM.CacVeTuCTHK + dienGiaiVM.SLVeDaXuat + dienGiaiVM.SoTienDaXuat;
-                return Json(new
-                {
-                    status = true,
-                    data = dienGiaiVM
-                });
+
             }
-            else
-                return Content("");
+
+
+            if(hoanves.Count() != 0)
+            {
+                string cacVeHoan = "";
+                int slVeHoan = 0;
+                string thanhToan = "";
+                string phiHoan = "";
+                string thucTra = "";
+                string thucTraNum;
+                
+
+                foreach(var item in hoanves)
+                {
+                    numList.Add(item.number);
+
+                    int lastItem = hoanves.ToList().IndexOf(item);
+                    if (lastItem != hoanves.Count() - 1)
+                    {
+                        // this is the last item
+                        cacVeHoan += item.number.ToString() + " - " + item.nguoicapnhat + " - " + item.slve.ToString() + " vé" + "\n";
+                    }
+                    else
+                    {
+                        cacVeHoan += item.number.ToString() + " - " + item.nguoicapnhat + " - " + item.slve.ToString() + " vé" + "\n";
+                    }
+                    slVeHoan += item.slve;
+                    thanhToan += (item.giave + item.thuesb + item.lephi + item.thuevat + item.phidv).ToString("N0") + "\n";
+                    phiHoan += item.phihoan.ToString("N0") + "\n";
+                    thucTra += (decimal.Parse(thanhToan) - decimal.Parse(phiHoan)).ToString("N0") + "\n";
+                    dienGiaiVM.ThucTraNum = (decimal.Parse(thanhToan) - decimal.Parse(phiHoan)).ToString("N0");
+                }
+
+                dienGiaiVM.CacVeHoanBenCTHK = "\n Các vé hoàn bên CTHK: \n" + cacVeHoan.ToString();
+                dienGiaiVM.TongThanhToan = "Thanh Toán: " + thanhToan;
+                dienGiaiVM.PhiHoan = "Phí Hoàn: " + phiHoan;
+                dienGiaiVM.ThucTra = "Thực Trả: " +thucTra;
+                dienGiaiVM.SLVeHoan = slVeHoan;
+                
+
+                foreach(var num in numList)
+                {
+                    if (num.Equals(number1))
+                    {
+                        dienGiaiVM.Number2 = number1;
+                    }
+                }
+                
+            }
+            if (hoanves.Count() == 0)
+            {
+                dienGiaiVM.CacVeHoanBenCTHK = "";
+                dienGiaiVM.TongThanhToan = "";
+                dienGiaiVM.PhiHoan = "";
+                dienGiaiVM.ThucTra = "";
+            }
+
+            if (string.IsNullOrEmpty(dienGiaiVM.Number2))
+            {
+                dienGiaiVM.Number2 = "";
+            }
+
+            return Json(new
+            {
+                status = true,
+                data = dienGiaiVM
+            });
         }
 
         //public async Task<IActionResult> DienGiaiBySGTCode(string sgtCode)
@@ -153,6 +224,9 @@ namespace EMD.Controllers
                 return NotFound();
 
             EMDViewModel.EMDTbl = await _unitOfWork.emdRepository.GetByIdAsync(id);
+
+            EMDViewModel.HangHKs = await _unitOfWork.emdRepository.GetHangHKs();
+            EMDViewModel.EMDTbl.NgayDC = DateTime.Parse(DateTime.Now.ToShortDateString());
 
             if (EMDViewModel.EMDTbl == null)
                 return NotFound();

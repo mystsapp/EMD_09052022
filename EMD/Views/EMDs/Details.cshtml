@@ -41,11 +41,17 @@
         </div>
         <div class="card-body">
 
-
-            <form method="post" autocomplete="off">
                 <div class="p-4 border rounded">
 
                     <div class="form-group row">
+                        <div class="col-1">
+                            <label asp-for="EMDTbl.Number" class="control-label"></label>
+                        </div>
+                        <div class="col-3">
+                            <input asp-for="EMDTbl.Number" class="form-control" readonly />
+
+                        </div>
+
                         <div class="col-1">
                             <label asp-for="EMDTbl.SGTCode" class="control-label"></label>
                         </div>
@@ -62,22 +68,15 @@
                             <input type="text" asp-for="EMDTbl.BatDau" class="form-control maskInput" disabled />
                         </div>
 
-                        <div class="col-1">
-                            <label asp-for="EMDTbl.KetThuc" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" asp-for="EMDTbl.KetThuc" class="form-control maskInput" readonly />
-                        </div>
-
                     </div>
 
                     <div class="form-group row">
 
                         <div class="col-1">
-                            <label asp-for="EMDTbl.SLVeDatCoc" class="control-label"></label>
+                            <label asp-for="EMDTbl.KetThuc" class="control-label"></label>
                         </div>
                         <div class="col-3">
-                            <input asp-for="EMDTbl.SLVeDatCoc" class="form-control" readonly />
+                            <input type="text" asp-for="EMDTbl.KetThuc" class="form-control maskInput" readonly />
                         </div>
 
                         <div class="col-1">
@@ -86,7 +85,6 @@
                         <div class="col-3">
                             <input type="text" asp-for="EMDTbl.NgayDC" class="form-control maskInput" readonly />
                         </div>
-
 
                         <div class="col-1">
                             <label asp-for="EMDTbl.HetHan" class="control-label"></label>
@@ -100,14 +98,13 @@
                     </div>
 
                     <div class="form-group row">
+
                         <div class="col-1">
-                            <label asp-for="EMDTbl.Number" class="control-label"></label>
+                            <label asp-for="EMDTbl.SLVeDatCoc" class="control-label"></label>
                         </div>
                         <div class="col-3">
-                            <input asp-for="EMDTbl.Number" class="form-control" readonly />
-
+                            <input asp-for="EMDTbl.SLVeDatCoc" class="form-control" readonly />
                         </div>
-
 
                         <div class="col-1">
                             <label asp-for="EMDTbl.HangHK" class="control-label"></label>
@@ -232,19 +229,6 @@
 
                         </div>
 
-
-                        <div class="col-1">
-                            <label asp-for="EMDTbl.NguoiNhap" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
-                            <input asp-for="EMDTbl.NguoiNhap" class="form-control" readonly />
-
-                        </div>
-
-                    </div>
-
-                    <div class="form-group row">                        
-
                         <div class="col-1">
                             <label asp-for="EMDTbl.PNR" class="control-label"></label>
                         </div>
@@ -256,11 +240,41 @@
                     </div>
 
                     <div class="form-group row">
+
+                        <div class="col-1">
+                            <label asp-for="EMDTbl.NguoiNhap" class="control-label"></label>
+                        </div>
+                        <div class="col-3">
+                            <input asp-for="EMDTbl.NguoiNhap" class="form-control" readonly />
+
+                        </div>
+
+
+                        <div class="col-1">
+                            <label asp-for="EMDTbl.SLVeHoan" class="control-label"></label>
+                        </div>
+                        <div class="col-3">
+                            <input asp-for="EMDTbl.SLVeHoan" class="form-control " id="txtNguoiNhap" readonly />
+                            <span asp-validation-for="EMDTbl.SLVeHoan" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-1">
+                            <label asp-for="EMDTbl.ThucTra" class="control-label"></label>
+                        </div>
+                        <div class="col-3">
+                            <input asp-for="EMDTbl.ThucTra" class="form-control " id="txtNguoiNhap" readonly />
+                            <span asp-validation-for="EMDTbl.ThucTra" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group row">
                         <div class="col-1">
                             <label asp-for="EMDTbl.DienGiai" class="control-label"></label>
                         </div>
                         <div class="col-11">
-                            <textarea asp-for="EMDTbl.DienGiai" class="form-control" rows="10" readonly></textarea>
+                            <textarea asp-for="EMDTbl.DienGiai" class="form-control" rows="12" readonly></textarea>
 
                         </div>
 
@@ -272,8 +286,6 @@
                         <a class="btn btn-success" asp-action="Index"><i class="fas fa-backward"></i></a>
                     </div>
                 </div>
-            </form>
-
 
 
         </div>

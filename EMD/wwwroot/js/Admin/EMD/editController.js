@@ -27,14 +27,14 @@ var editController = {
                         $('#txtKetThuc').val(list[2]);
                         //$('#tuyentq').val(list[3]);
                         //$('#nuocden').val(list[4]);
-                        $('#txtSLVeDatCoc').val(list[5]);
+                       // $('#txtSLVeDatCoc').val(list[5]);
                     }
                     else {
                         $('#txtBatDau').val('');
                         $('#txtKetThuc').val('');
                         //$('#tuyentq').val('');
                         //$('#nuocden').val('');
-                        $('#txtSLVeDatCoc').val('');
+                        //$('#txtSLVeDatCoc').val('');
                     }
                 }
             });
