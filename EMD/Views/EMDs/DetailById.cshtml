@@ -4,23 +4,23 @@
     Layout = null;
 }
 
-<!-- Content Header (Page header) -->
+<!-- Content Header (Page header)
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1>Xem Chi Tiết</h1>
             </div>
-            @*<div class="col-sm-6">
+            <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                     <li class="breadcrumb-item"><a asp-action="Index">Danh Sách Đặt Cọc</a></li>
                     <li class="breadcrumb-item active">Xem Chi Tiết Đặt Cọc</li>
                 </ol>
-            </div>*@
+            </div>
         </div>
-    </div><!-- /.container-fluid -->
-</section>
+    </div>container-fluid
+</section>-->
 
 <!-- Main content -->
 <section class="content">
@@ -61,31 +61,17 @@
 
                     </div>
 
-
-                    <div class="col-1">
-                        <label asp-for="EMDTbl.BatDau" class="control-label"></label>
-                    </div>
-                    <div class="col-3">
-                        <input type="text" asp-for="EMDTbl.BatDau" class="form-control maskInput" disabled />
-                    </div>
-
-                </div>
-
-                <div class="form-group row">
-
-                    <div class="col-1">
-                        <label asp-for="EMDTbl.KetThuc" class="control-label"></label>
-                    </div>
-                    <div class="col-3">
-                        <input type="text" asp-for="EMDTbl.KetThuc" class="form-control maskInput" readonly />
-                    </div>
-
                     <div class="col-1">
                         <label asp-for="EMDTbl.NgayDC" class="control-label"></label>
                     </div>
                     <div class="col-3">
                         <input type="text" asp-for="EMDTbl.NgayDC" class="form-control maskInput" readonly />
                     </div>
+
+
+                </div>
+
+                <div class="form-group row">
 
                     <div class="col-1">
                         <label asp-for="EMDTbl.HetHan" class="control-label"></label>
@@ -95,24 +81,11 @@
 
                     </div>
 
-
-                </div>
-
-                <div class="form-group row">
-
                     <div class="col-1">
                         <label asp-for="EMDTbl.SLVeDatCoc" class="control-label"></label>
                     </div>
                     <div class="col-3">
                         <input asp-for="EMDTbl.SLVeDatCoc" class="form-control" readonly />
-                    </div>
-
-                    <div class="col-1">
-                        <label asp-for="EMDTbl.HangHK" class="control-label"></label>
-                    </div>
-                    <div class="col-3">
-                        <input asp-for="EMDTbl.HangHK" class="form-control" readonly />
-
                     </div>
 
                     <div class="col-1">
@@ -122,7 +95,6 @@
                         <input asp-for="EMDTbl.STDatCoc" asp-format="{0:0,0}" class="form-control" readonly />
 
                     </div>
-
                 </div>
 
                 <div class="form-group row">
@@ -136,14 +108,6 @@
 
                     </div>
 
-                    <div class="col-1">
-                        <label asp-for="EMDTbl.LoaiBK" class="control-label"></label>
-                    </div>
-                    <div class="col-3">
-                        <input asp-for="EMDTbl.LoaiBK" class="form-control" readonly />
-
-                    </div>
-
 
                     <div class="col-1">
                         <label asp-for="EMDTbl.SLVeDaXuat" class="control-label"></label>
@@ -153,9 +117,6 @@
 
                     </div>
 
-                </div>
-
-                <div class="form-group row">
                     <div class="col-1">
                         <label asp-for="EMDTbl.TienXuatVe" class="control-label"></label>
                     </div>
@@ -163,6 +124,10 @@
                         <input asp-for="EMDTbl.TienXuatVe" class="form-control" readonly />
 
                     </div>
+
+                </div>
+
+                <div class="form-group row">
 
 
                     <div class="col-1">
@@ -181,32 +146,11 @@
 
                     </div>
 
-                </div>
-
-                <div class="form-group row">
-
                     <div class="col-1">
                         <label asp-for="EMDTbl.SoCTPhat" class="control-label"></label>
                     </div>
                     <div class="col-3">
                         <input asp-for="EMDTbl.SoCTPhat" class="form-control" readonly />
-
-                    </div>
-
-                    <div class="col-1">
-                        <label asp-for="EMDTbl.LoaiTien" class="control-label"></label>
-                    </div>
-                    <div class="col-3">
-                        <input asp-for="EMDTbl.LoaiTien" class="form-control" readonly />
-
-                    </div>
-
-
-                    <div class="col-1">
-                        <label asp-for="EMDTbl.TyGia" class="control-label"></label>
-                    </div>
-                    <div class="col-3">
-                        <input asp-for="EMDTbl.TyGia" class="form-control" readonly />
 
                     </div>
 
@@ -220,36 +164,6 @@
                         <textarea asp-for="EMDTbl.GhiChu" class="form-control" readonly></textarea>
 
                     </div>
-
-
-                    <div class="col-1">
-                        <label asp-for="EMDTbl.DongHoSo" class="control-label"></label>
-                    </div>
-                    <div class="col-3">
-                        <input type="text" value="" asp-for="EMDTbl.DongHoSo" class="form-control" readonly />
-
-                    </div>
-
-                    <div class="col-1">
-                        <label asp-for="EMDTbl.PNR" class="control-label"></label>
-                    </div>
-                    <div class="col-3">
-                        <input asp-for="EMDTbl.PNR" class="form-control" readonly />
-
-                    </div>
-
-                </div>
-
-                <div class="form-group row">
-
-                    <div class="col-1">
-                        <label asp-for="EMDTbl.NguoiNhap" class="control-label"></label>
-                    </div>
-                    <div class="col-3">
-                        <input asp-for="EMDTbl.NguoiNhap" class="form-control" readonly />
-
-                    </div>
-
 
                     <div class="col-1">
                         <label asp-for="EMDTbl.SLVeHoan" class="control-label"></label>
@@ -267,8 +181,44 @@
                         <span asp-validation-for="EMDTbl.ThucTra" class="text-danger"></span>
                     </div>
 
+                    @*<div class="col-1">
+                            <label asp-for="EMDTbl.DongHoSo" class="control-label"></label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" value="" asp-for="EMDTbl.DongHoSo" class="form-control" readonly />
+
+                        </div>
+
+                        <div class="col-1">
+                            <label asp-for="EMDTbl.PNR" class="control-label"></label>
+                        </div>
+                        <div class="col-3">
+                            <input asp-for="EMDTbl.PNR" class="form-control" readonly />
+
+                        </div>*@
 
                 </div>
+
+                @*<div class="form-group row">
+
+                        <div class="col-1">
+                            <label asp-for="EMDTbl.SLVeHoan" class="control-label"></label>
+                        </div>
+                        <div class="col-3">
+                            <input asp-for="EMDTbl.SLVeHoan" class="form-control " id="txtNguoiNhap" readonly />
+                            <span asp-validation-for="EMDTbl.SLVeHoan" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-1">
+                            <label asp-for="EMDTbl.ThucTra" class="control-label"></label>
+                        </div>
+                        <div class="col-3">
+                            <input asp-for="EMDTbl.ThucTra" class="form-control " id="txtNguoiNhap" readonly />
+                            <span asp-validation-for="EMDTbl.ThucTra" class="text-danger"></span>
+                        </div>
+
+
+                    </div>*@
 
                 <div class="form-group row">
                     <div class="col-1">

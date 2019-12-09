@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EMD.Data.Repository;
 using EMD.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace EMD.Controllers
 {
@@ -36,6 +37,7 @@ namespace EMD.Controllers
 
             EMDViewModel.HangHKs = await _unitOfWork.emdRepository.GetHangHKs();
             EMDViewModel.EMDTbl.NgayDC = DateTime.Parse(DateTime.Now.ToShortDateString());
+            EMDViewModel.EMDTbl.HetHan = Convert.ToDateTime(EMDViewModel.EMDTbl.NgayDC).AddMonths(9).AddDays(25);
             return View(EMDViewModel);
         }
 
@@ -314,6 +316,16 @@ namespace EMD.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        public JsonResult GetNgayHetHan(string ngayDc)
+        {
+            var ngayHetHan = Convert.ToDateTime(ngayDc).AddMonths(9).AddDays(25).ToShortDateString();
+            return Json(new
+            {
+                status = true,
+                data = ngayHetHan
+            });
         }
     }
 }

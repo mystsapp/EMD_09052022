@@ -46,7 +46,7 @@ var createController = {
                 type: 'GET',
                 data: {
                     sgtCode: codedoan,
-                    number1: number1
+                    number1: number1.trim()
                 },
                 success: function (response) {
 
@@ -85,33 +85,25 @@ var createController = {
             });
         });
 
-        //$('#txtNumber1').on('change', function () {
-        //    codedoan = $('#txtSgtCode').val().toUpperCase();
-        //    var number1 = $(this).val();
+        $('#txtNgayDC').on('change', function () {
+            var ngayDc = $(this).val();
 
-        //    $.ajax({
-        //        url: '/EMDs/DienGiaiBySGTCode',
-        //        type: 'GET',
-        //        data: {
-        //            sgtCode: codedoan,
-        //            number1: number1
-        //        },
-        //        success: function (response) {
+            $.ajax({
+                url: '/EMDs/GetNgayHetHan',
+                type: 'GET',
+                data: {
+                    ngayDc: ngayDc
+                },
+                success: function (response) {
 
-        //            if (response.status) {
-        //                var data = response.data;
-        //                if (data.number2 !== '') {
-        //                    $('#txtSLVeHoan').val(data.slVeHoan);
-        //                    $('#txtThucTra').val(data.thucTraNum);
-        //                }
-        //            }
-        //            else {
-        //                $('#txtSLVeHoan').val(0);
-        //                $('#txtThucTra').val(0);
-        //            }
-        //        }
-        //    });
-        //});
+                    if (response.status) {
+                        var data = response.data;
+                        $('#txtHetHan').val(data);
+                    }
+                    
+                }
+            });
+        });
 
         $('input.numbers').keyup(function (event) {
 
