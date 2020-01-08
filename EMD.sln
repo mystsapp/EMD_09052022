@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMD", "EMD\EMD.csproj", "{0268E9AF-8DE4-485D-8106-7BB0E002299C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMD", "EMD\EMD.csproj", "{0268E9AF-8DE4-485D-8106-7BB0E002299C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerService", "LoggerService\LoggerService.csproj", "{370F0E82-1571-495D-A679-D6E604B739F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0268E9AF-8DE4-485D-8106-7BB0E002299C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0268E9AF-8DE4-485D-8106-7BB0E002299C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0268E9AF-8DE4-485D-8106-7BB0E002299C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{370F0E82-1571-495D-A679-D6E604B739F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{370F0E82-1571-495D-A679-D6E604B739F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{370F0E82-1571-495D-A679-D6E604B739F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{370F0E82-1571-495D-A679-D6E604B739F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

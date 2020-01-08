@@ -144,7 +144,7 @@ namespace EMD.Controllers
                 string thanhToan = "";
                 string phiHoan = "";
                 string thucTra = "";
-                string thucTraNum;
+                //string thucTraNum;
                 
 
                 foreach(var item in hoanves)
