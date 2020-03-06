@@ -50,6 +50,10 @@
 
                     <input type="hidden" asp-for="User.Id" />
                     <input type="hidden" asp-for="User.Username" />
+                    <input type="hidden" asp-for="User.MaCN" />
+                    <input type="hidden" asp-for="User.Doimk" />
+                    <input type="hidden" asp-for="User.Ngaydoimk" />
+                    <input type="hidden" asp-for="User.NguoiTao" />
                     <input type="hidden" asp-for="OldPass" value="@Model.User.Password" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -57,11 +61,10 @@
                     <div class="form-group row">
 
                         <div class="col-2">
-                            <label asp-for="User.Username"></label>
+                            <label asp-for="UsernameEdit"></label>
                         </div>
                         <div class="col-4">
-                            <input class="form-control" asp-for="UsernameEdit" />
-                            <input type="hidden" asp-for="Username" />
+                            <input class="form-control" asp-for="UsernameEdit" readonly/>
                             <span class="text-danger" asp-validation-for="UsernameEdit"></span>
                         </div>
 
@@ -143,10 +146,10 @@
                     
                     <div class="form-group row">
                         <div class="col-2">
-                            <label asp-for="User.TinhTrang"></label>
+                            <label asp-for="User.TrangThai"></label>
                         </div>
                         <div class="col-4">
-                            <input type="checkbox" asp-for="User.TinhTrang" />
+                            <input type="checkbox" asp-for="User.TrangThai" />
                         </div>
 
                     </div>

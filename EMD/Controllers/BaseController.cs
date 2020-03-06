@@ -17,7 +17,7 @@ namespace EMD.Controllers
         {
             // var session = (user)Session[CommonConstants.USER_SESSION];
            // var username = HttpContext.Session.GetString("username");
-            var user = HttpContext.Session.Get<User>("ssUser");
+            var user = HttpContext.Session.Gets<User>("loginUser");
 
             //var user = JsonConvert.DeserializeObject<Users>(HttpContext.Session.GetString("userInfo"));
 

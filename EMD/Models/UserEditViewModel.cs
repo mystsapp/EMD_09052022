@@ -17,9 +17,9 @@ namespace EMD.Models
         public IEnumerable<Role> Roles { get; set; }
         public string OldPass { get; set; }
 
-        [Remote("UsersEditExists", "Users", AdditionalFields = "Username", ErrorMessage = "User đã tồn tại")]
-        [MaxLength(50, ErrorMessage = "Không vượt qua 50 ký tự.")]
+        //[Remote("UsersEditExists", "Users", AdditionalFields = "Username", ErrorMessage = "User đã tồn tại")]
+        //[MaxLength(50, ErrorMessage = "Không vượt qua 50 ký tự.")]
         public string UsernameEdit { get; set; }
-        public string Username { get; set; }
+        //public string Username { get; set; }
     }
 }

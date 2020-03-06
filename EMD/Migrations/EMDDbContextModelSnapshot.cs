@@ -370,6 +370,10 @@ namespace EMD.Migrations
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
+                    b.Property<string>("MaCN")
+                        .HasColumnType("varchar(10)")
+                        .HasMaxLength(10);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
@@ -377,6 +381,10 @@ namespace EMD.Migrations
 
                     b.Property<DateTime?>("Ngaydoimk")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("NguoiTao")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Password")
                         .HasColumnType("varchar(50)")
@@ -389,7 +397,7 @@ namespace EMD.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("TinhTrang")
+                    b.Property<bool>("TrangThai")
                         .HasColumnType("bit");
 
                     b.Property<string>("Username")

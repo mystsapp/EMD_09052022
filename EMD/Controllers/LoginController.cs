@@ -14,7 +14,7 @@ namespace EMD.Controllers
     public class LoginController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-
+        
         public LoginController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -33,39 +33,64 @@ namespace EMD.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> login(LoginViewModel model)
+        public async Task<IActionResult> loginAsync(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _unitOfWork.userRepository.login(model.username, model.password);
-                switch (result)
+                var result = _unitOfWork.userRepository.Login(model.Username, "012");
+                if (result == null)
                 {
-                    case 0:
-                        ModelState.AddModelError("", "Tài khoản này không tồn tại");
-                        break;
-                    case 1:
+                    ModelState.AddModelError("", "Tài khoản này không tồn tại");
+                }
+                else
+                {
+                    if (!result.Trangthai)
+                    {
+                        ModelState.AddModelError("", "Tài khoản này đã bị khóa");
+                        return View();
+                    }
+                    string modelPass = MaHoaSHA1.EncodeSHA1(model.Password);
+                    if (result.Password != modelPass)
+                    {
+                        ModelState.AddModelError("", "Mật khẩu không đúng");
+                    }
+                    if (result.Password == modelPass)
+                    {
+                        var user = await _unitOfWork.userRepository.FindIncludeOneAsync(x => x.Role, x => x.Username == model.Username);
+                        HttpContext.Session.Set("loginUser", user);
+
+                        
+                        //HttpContext.Session.SetString("username", user.Username);
+                        //HttpContext.Session.SetString("password", model.Password);
+                        //HttpContext.Session.SetString("hoten", result.Hoten);
+                        //HttpContext.Session.SetString("phong", result.Maphong);
+                        //HttpContext.Session.SetString("chinhanh", result.Macn);
+                        //HttpContext.Session.SetString("dienthoai", String.IsNullOrEmpty(result.Dienthoai) ? "" : result.Dienthoai);
+                        //HttpContext.Session.SetString("macode", result.Macode);
+                        //HttpContext.Session.SetString("roleId", result.Macode);
+
+                        //DateTime ngaydoimk = Convert.ToDateTime(result.Ngaydoimk);
+                        //int kq = (DateTime.Now.Month - ngaydoimk.Month) + 12 * (DateTime.Now.Year - ngaydoimk.Year);
+                        //if (kq >= 3)
+                        //{
+                        //    return View("changepass");
+                        //}
+                        //else if (result.Doimk)
+                        //{
+                        //    return View("changepass");
+                        //}
+
+                        if (result.Doimk)
                         {
-                            var userInfo = await _unitOfWork.userRepository.FindIncludeOneAsync(y => y.Role, x => x.Username.ToLower() == model.username.ToLower());
-                            //HttpContext.Session.SetString("username", userInfo.Username);
-                            //HttpContext.Session.SetString("hoten", userInfo.Hoten);
-                            //HttpContext.Session.SetString("password", model.password);
-                            //HttpContext.Session.SetString("macn", userInfo.Macn);
-                            //HttpContext.Session.SetString("daily", model.daily);
-                            //HttpContext.Session.SetString("userInfo", JsonConvert.SerializeObject(userInfo));
-
-                            HttpContext.Session.Set("ssUser", userInfo.FirstOrDefault());
-
+                            return View("changepass");
+                        }
+                        else
+                        {
                             return RedirectToAction("Index", "EMDs");
                         }
 
-                    case -1:
-                        ModelState.AddModelError("", "Tài khoản này đã bị khóa");
-                        break;
-                    case -2:
-                        ModelState.AddModelError("", "Mật khẩu không đúng.");
-                        break;
+                    }
                 }
-
             }
             return View();
         }
@@ -79,9 +104,9 @@ namespace EMD.Controllers
         public ActionResult changepass(string strUrl)
         {
             var entity = new changepassModel();
-            User user = HttpContext.Session.Get<User>("ssUser");
-            entity.username = user.Username;
-            entity.password = user.Password;
+            var user = HttpContext.Session.Gets<User>("loginUser").SingleOrDefault();
+            entity.Username = user.Username;
+            entity.Password = user.Password;
             entity.strUrl = strUrl;
             return View("changepass", entity);
         }
@@ -90,44 +115,33 @@ namespace EMD.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = _unitOfWork.userRepository.changepass(model.username, model.password, model.newpassword, model.confirmpassword);
-                if (result == -1)
+                var user = HttpContext.Session.Gets<User>("loginUser").SingleOrDefault();
+                string oldPass = user.Password;
+                string modelPass = MaHoaSHA1.EncodeSHA1(model.Password);
+                if (oldPass != modelPass)
                 {
-                    ModelState.AddModelError("", "Vui lòng nhập mật khẩu cũ.");
+                    ModelState.AddModelError("", "Mật khẩu cũ không đúng");
                 }
-                else if (result == -2)
+                //else if (model.Newpassword != model.Confirmpassword)
+                //{
+                //    ModelState.AddModelError("", "Mật khẩu nhập lại không đúng.");
+                //}
+                else
                 {
-                    ModelState.AddModelError("", "Mật khẩu cũ không đúng.");
+                    int result = _unitOfWork.userRepository.Changepass(model.Username, MaHoaSHA1.EncodeSHA1(model.NewPassword));
+                    if (result > 0)
+                    {
+                        SetAlert("Đổi mật khẩu thành công.", "success");
+                        return LocalRedirect(model.strUrl);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Không thể đổi mật khẩu.");
+                    }
                 }
-                else if (result == -3)
-                {
-                    ModelState.AddModelError("", "Vui lòng nhập mật khẩu mới.");
-                }
-                else if (result == -4)
-                {
-                    ModelState.AddModelError("", "Vui lòng nhập lại mật khẩu mới.");
-                }
-                else if (result == -5)
-                {
-                    ModelState.AddModelError("", "Mật khẩu nhập lại không đúng.");
-                }
-                else if (result == 1)
-                {
-                    //if (Session["role"].Equals("cashier"))
-                    //{
-                    //    return RedirectToAction("Index", "Cashier");
-                    //}
-                    //else
-                    //{
-                    //return RedirectToAction("Index", "Home");
-                    //}
 
-                    SetAlert("Đổi mật khẩu thành công.", "success");
-
-                    return Redirect(model.strUrl);
-                }
             }
-            return View("changepass");
+            return View();
         }
 
         private void SetAlert(string message, string type)

@@ -7,7 +7,7 @@
 @{
     ViewData["Title"] = "Create";
 
-    var userName = HttpContextAccessor.HttpContext.Session.Get<User>("ssUser").Username;
+    var userName = HttpContextAccessor.HttpContext.Session.Gets<User>("loginUser").SingleOrDefault().Username;
 }
 
 <!-- Content Header (Page header) -->

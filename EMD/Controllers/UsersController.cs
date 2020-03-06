@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace EMD.Controllers
 {
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -46,6 +46,7 @@ namespace EMD.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePOST()
         {
+            var user = HttpContext.Session.Gets<User>("loginUser").SingleOrDefault();
             if (!ModelState.IsValid)
             {
                 return View(UserVM);
@@ -53,9 +54,14 @@ namespace EMD.Controllers
 
             UserVM.User.Password = MaHoaSHA1.EncodeSHA1(UserVM.User.Password);
             UserVM.User.Username = UserVM.UsernameCreate;
+            UserVM.User.Ngaydoimk = DateTime.Now;
+            UserVM.User.Doimk = false;
+            UserVM.User.NguoiTao = user.Username;
+            UserVM.User.MaCN = _unitOfWork.chiNhanhRepository.GetById(UserVM.User.ChiNhanhId).MaChiNhanh;
 
             _unitOfWork.userRepository.Create(UserVM.User);
             await _unitOfWork.Complete();
+            SetAlert("Tạo mới User thành công.", "success");
             return RedirectToAction(nameof(Index));
         }
 
@@ -78,7 +84,7 @@ namespace EMD.Controllers
                 return NotFound();
 
             userEditVM.UsernameEdit = userEditVM.User.Username;
-            userEditVM.Username = userEditVM.User.Username;
+            //userEditVM.Username = userEditVM.User.Username;
 
             return View(userEditVM);
         }
@@ -97,12 +103,14 @@ namespace EMD.Controllers
                 {
                     userEditVM.User.Password = userEditVM.OldPass;
                 }
-
-                userEditVM.User.Username = userEditVM.UsernameEdit;
+                else
+                {
+                    userEditVM.User.Password = MaHoaSHA1.EncodeSHA1(userEditVM.User.Password);
+                }
 
                 _unitOfWork.userRepository.Update(userEditVM.User);
                 await _unitOfWork.Complete();
-
+                SetAlert("Cập nhật User thành công.", "success");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -150,7 +158,7 @@ namespace EMD.Controllers
             {
                 _unitOfWork.userRepository.Delete(user);
                 await _unitOfWork.Complete();
-
+                SetAlert("Xóa User thành công.", "success");
                 return RedirectToAction(nameof(Index));
             }
         }

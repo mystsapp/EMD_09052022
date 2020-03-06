@@ -32,12 +32,18 @@ namespace EMD.Data.Models
         [ForeignKey("ChiNhanhId")]
         public virtual ChiNhanh ChiNhanh { get; set; }
 
+        [MaxLength(10, ErrorMessage = "Không vượt qua 10 ký tự."), Column(TypeName = "varchar(10)")]
+        public string MaCN { get; set; }
+        
+        [MaxLength(50, ErrorMessage = "Không vượt qua 50 ký tự."), Column(TypeName = "varchar(50)")]
+        public string NguoiTao { get; set; }
+
         [DisplayName("Đại Lý")]
         [MaxLength(50, ErrorMessage = "Không vượt qua 50 ký tự."), Column(TypeName = "nvarchar(50)")]
         public string DMDaiLy { get; set; }
 
         [DisplayName("Tình Trạng")]
-        public bool TinhTrang { get; set; }
+        public bool TrangThai { get; set; }
 
         [Remote("UsersExists", "Users", ErrorMessage = "User đã tồn tại")]
         [MaxLength(50, ErrorMessage = "Không vượt qua 50 ký tự."), Column(TypeName = "nvarchar(50)")]

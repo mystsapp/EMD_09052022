@@ -1,4 +1,5 @@
 ﻿using EMD.Data.Models;
+using EMD.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,5 +23,6 @@ namespace EMD.Data
         public DbSet<DienGiaiModel> DienGiaiModels { get; set; }
         public DbSet<HangHK> HangHKs { get; set; }
         public DbSet<HoanVeModel> HoanVeModels { get; set; }
+        public DbSet<LoginViewModel> LoginViewModels { get; set; }
     }
 }

@@ -14,7 +14,20 @@ namespace EMD.Utilities
             session.SetString(key, JsonConvert.SerializeObject(value));
         }
 
-        public static T Get<T>(this ISession session, string key)
+        public static IEnumerable<T> Gets<T>(this ISession session, string key)
+        {
+            var value = session.GetString(key);
+            if (value != null)
+            {
+                IEnumerable<T> deserializedlistobj = (IEnumerable<T>)JsonConvert.DeserializeObject(value, typeof(IEnumerable<T>));
+                return deserializedlistobj;
+            }
+            return null;
+            //return value == null ? default(T) :
+            //    JsonConvert.DeserializeObject<T>(value);
+        }
+        
+        public static T GetSingle<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
 
