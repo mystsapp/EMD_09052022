@@ -9,6 +9,7 @@ using Microsoft.Data.SqlClient;
 using EMD.Models;
 using System.Data;
 using EMD.Utilities;
+using X.PagedList;
 
 namespace EMD.Data.Repository
 {
@@ -25,6 +26,7 @@ namespace EMD.Data.Repository
         DataTable TheoDoiTuongBK_NgayBay_Report(string tuNgay, string denNgay);
 
         DataTable TheoDoanChuaHoanCoc_Report(string tuNgay, string denNgay);
+        IPagedList<EMDTbl> ListEMD(string searchString,string searchDate, int? page);
     }
     public class EMDRepository : Repository<EMDTbl>, IEMDRepository
     {
@@ -262,6 +264,54 @@ namespace EMD.Data.Repository
             var result = await _context.HoanVeModels.FromSqlRaw("EXECUTE dbo.spHoanVe {0}", sgtCode).ToListAsync();
 
             return result;
+        }
+
+        public IPagedList<EMDTbl> ListEMD(string searchString,string searchDate, int? page)
+        {
+            // return a 404 if user browses to before the first page
+            if (page.HasValue && page < 1)
+                return null;
+
+            // retrieve list from database/whereverand
+
+            var list = GetAll().AsQueryable();
+            
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                list = list.Where(x => x.Number.ToLower().Contains(searchString.ToLower()) ||
+                                       x.SGTCode.ToLower().Contains(searchString.ToLower()) ||
+                                       x.SoCTPhat.ToLower().Contains(searchString.ToLower())||
+                                       x.NguoiNhap.ToLower().Contains(searchString.ToLower())||
+                                       x.HangHK.ToLower().Contains(searchString.ToLower()));
+            }
+
+            var count = list.Count();
+
+            
+            if (!string.IsNullOrEmpty(searchDate))
+            {
+                DateTime bgDate = Convert.ToDateTime(searchDate);
+                list = list.Where(x => x.NgayDC.Value.ToShortDateString().Equals(bgDate.ToShortDateString()));
+            }
+
+            // page the list
+            const int pageSize = 2;
+            decimal aa = (decimal)list.Count() / (decimal)pageSize;
+            var bb = Math.Ceiling(aa);
+            if (page > bb)
+            {
+                page--;
+            }
+            page = (page == 0) ? 1 : page;
+            var listPaged = list.OrderByDescending(x => x.NgayDC).ToPagedList(page ?? 1, pageSize);
+            //if (page > listPaged.PageCount)
+            //    page--;
+            // return a 404 if user browses to pages beyond last page. special case first page if no items exist
+            if (listPaged.PageNumber != 1 && page.HasValue && page > listPaged.PageCount)
+                return null;
+
+
+            return listPaged;
         }
     }
 }

@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using EMD.Data.Repository;
 using EMD.Models;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
 namespace EMD.Controllers
@@ -21,18 +23,38 @@ namespace EMD.Controllers
             _unitOfWork = unitOfWork;
             EMDViewModel = new EMDViewModel()
             {
-                EMDTbls = _unitOfWork.emdRepository.GetAll(),
                 EMDTbl = new Data.Models.EMDTbl()
-                
+
             };
         }
-        public IActionResult Index()
+        public IActionResult Index(int id = 0, string searchString = null, string searchDate = null, int page = 1)
         {
+            EMDViewModel.StrUrl = UriHelper.GetDisplayUrl(Request);
+            ViewBag.searchString = searchString;
+            ViewBag.searchDate = searchDate;
 
+            // for delete
+            if (id != 0)
+            {
+
+                var emd = _unitOfWork.emdRepository.GetById(id);
+                if (emd == null)
+                {
+                    var lastId = _unitOfWork.emdRepository
+                                              .GetAll().OrderByDescending(x => x.Id)
+                                              .FirstOrDefault().Id;
+                    id = lastId;
+
+                }
+                //LoaiVM.LoaiThucDon = _unitOfWork.loaiThucDonRepository.GetById(id);
+                //LoaiVM.ThucDons = _unitOfWork.thucDonRepository.Find(x => x.MaLoaiId.Equals(id)).ToList();
+            }
+
+            EMDViewModel.EMDTbls = _unitOfWork.emdRepository.ListEMD(searchString, searchDate, page);
             return View(EMDViewModel);
         }
 
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(string strUrl)
         {
 
             EMDViewModel.HangHKs = await _unitOfWork.emdRepository.GetHangHKs();
@@ -44,7 +66,7 @@ namespace EMD.Controllers
         // Post: Create Method
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePOST()
+        public async Task<IActionResult> CreatePOST(string strUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -53,14 +75,24 @@ namespace EMD.Controllers
 
             EMDViewModel.EMDTbl.Create = DateTime.Now;
             EMDViewModel.EMDTbl.SGTCode = EMDViewModel.EMDTbl.SGTCode.ToUpper();
+            EMDViewModel.EMDTbl.Number = EMDViewModel.Number;
 
             string hangHK = EMDViewModel.EMDTbl.HangHK;
             if (!string.IsNullOrEmpty(hangHK))
                 EMDViewModel.EMDTbl.HangHK = EMDViewModel.EMDTbl.HangHK.ToUpper();
 
-            _unitOfWork.emdRepository.Create(EMDViewModel.EMDTbl);
-            await _unitOfWork.Complete();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                _unitOfWork.emdRepository.Create(EMDViewModel.EMDTbl);
+                await _unitOfWork.Complete();
+                SetAlert("Thêm mới thành công.", "success");
+                return Redirect(strUrl);
+            }
+            catch (Exception)
+            {
+                return View(nameof(Create), new { strUrl = strUrl });
+            }
+
         }
 
         public async Task<IActionResult> GetBySGTCode(string sgtCode)
@@ -80,26 +112,45 @@ namespace EMD.Controllers
 
         }
 
-        public async Task<IActionResult> DienGiaiBySGTCode(string sgtCode, string number1)
+        public async Task<IActionResult> DienGiaiBySGTCode(string sgtCode, string number1, int soKhach = 0)
         {
+            // STSTOB-2017-02306
+            // STSTOB-2019-00003
+
+            // ctbanve
             var dsDienGiai = await _unitOfWork.emdRepository.DienGiaiBySGTCode(sgtCode);
+
+            // tourleob
             var ds = await _unitOfWork.emdRepository.GetBySGTCode(sgtCode);
 
+            // cthoanve
             var hoanves = await _unitOfWork.emdRepository.GetHoanVes(sgtCode);
 
-            var numList = new List<string>();
+            // chi lay nhung ve hoan co emd = emd truyen vao
+            hoanves = hoanves.Where(x => x.number == number1);
 
-            var dienGiaiVM = new DienGiaiViewModel()
+            // list emd nhung ve hoan
+            //var numList = new List<string>();
+
+            var dienGiaiVM = new DienGiaiViewModel();
+
+            if(soKhach == 0)
             {
-                Tour = ds.tuyentq + " " + ds.batdau.ToString("dd/MM/yyyy") + "-" + ds.ketthuc.ToString("dd/MM/yyyy") + " * " + ds.sokhach + "pax",
-                CacVeTuCTHK = "Các vé đã xuất bên CTHK: \n",
-                SLVeDaXuat = "Số lượng vé đã xuất: ",
-                SoTienDaXuat = "Số tiền đã xuất: ",
+                dienGiaiVM.Tour = ds.tuyentq + " " + ds.batdau.ToString("dd/MM/yyyy") + "-" + ds.ketthuc.ToString("dd/MM/yyyy") + " * " + ds.sokhach + "pax"; // ** ///
 
-                NguoiNhap = dsDienGiai.FirstOrDefault().nguoinhap
+            }
+            else
+            {
+                dienGiaiVM.Tour = ds.tuyentq + " " + ds.batdau.ToString("dd/MM/yyyy") + "-" + ds.ketthuc.ToString("dd/MM/yyyy") + " * " + soKhach + "pax"; // ** ///
 
-                
-            };
+            }
+            dienGiaiVM.CacVeTuCTHK = "Các vé đã xuất bên CTHK: \n";
+            dienGiaiVM.SLVeDaXuat = "Số lượng vé đã xuất: ";
+            dienGiaiVM.SoTienDaXuat = "Số tiền đã xuất: ";
+            dienGiaiVM.NguoiNhap = dsDienGiai.FirstOrDefault().nguoinhap;
+
+
+
 
             if (dsDienGiai.Count() != 0)
             {
@@ -124,20 +175,20 @@ namespace EMD.Controllers
                     slVe += item.slve;
                     soTien += item.giave + item.lephi + item.thuesb + item.thuevat + item.phidv;
 
-                    
+
                 }
 
                 dienGiaiVM.CacVeTuCTHK += cacVe.ToString();
                 dienGiaiVM.SLVeDaXuat += slVe.ToString();
                 dienGiaiVM.SoTienDaXuat += soTien.ToString("N0");
                 dienGiaiVM.TienXuatVe = soTien;
-                
+
                 //var stringName = dienGiaiVM.Tour + dienGiaiVM.CacVeTuCTHK + dienGiaiVM.SLVeDaXuat + dienGiaiVM.SoTienDaXuat;
 
             }
 
 
-            if(hoanves.Count() != 0)
+            if (hoanves.Count() != 0)
             {
                 string cacVeHoan = "";
                 int slVeHoan = 0;
@@ -145,11 +196,11 @@ namespace EMD.Controllers
                 string phiHoan = "";
                 string thucTra = "";
                 //string thucTraNum;
-                
 
-                foreach(var item in hoanves)
+
+                foreach (var item in hoanves)
                 {
-                    numList.Add(item.number);
+                    // numList.Add(item.number);
 
                     int lastItem = hoanves.ToList().IndexOf(item);
                     if (lastItem != hoanves.Count() - 1)
@@ -171,18 +222,18 @@ namespace EMD.Controllers
                 dienGiaiVM.CacVeHoanBenCTHK = "\n Các vé hoàn bên CTHK: \n" + cacVeHoan.ToString();
                 dienGiaiVM.TongThanhToan = "Thanh Toán: " + thanhToan;
                 dienGiaiVM.PhiHoan = "Phí Hoàn: " + phiHoan;
-                dienGiaiVM.ThucTra = "Thực Trả: " +thucTra;
+                dienGiaiVM.ThucTra = "Thực Trả: " + thucTra;
                 dienGiaiVM.SLVeHoan = slVeHoan;
-                
 
-                foreach(var num in numList)
-                {
-                    if (num.Equals(number1))
-                    {
-                        dienGiaiVM.Number2 = number1;
-                    }
-                }
-                
+
+                //foreach(var num in numList)
+                //{
+                //    if (num.Equals(number1))
+                //    {
+                //        dienGiaiVM.Number2 = number1;
+                //    }
+                //}
+
             }
             if (hoanves.Count() == 0)
             {
@@ -286,24 +337,24 @@ namespace EMD.Controllers
             return View(EMDViewModel);
         }
 
-        // Get: Delete method
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-                return NotFound();
+        //// Get: Delete method
+        //public async Task<IActionResult> Delete(int? id, string strUrl)
+        //{
+        //    if (id == null)
+        //        return NotFound();
 
-            EMDViewModel.EMDTbl = await _unitOfWork.emdRepository.GetByIdAsync(id);
+        //    EMDViewModel.EMDTbl = await _unitOfWork.emdRepository.GetByIdAsync(id);
 
-            if (EMDViewModel.EMDTbl == null)
-                return NotFound();
+        //    if (EMDViewModel.EMDTbl == null)
+        //        return NotFound();
 
-            return View(EMDViewModel);
-        }
+        //    return View(EMDViewModel);
+        //}
 
         // Post: Delete method
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int id)
+        public async Task<IActionResult> DeleteConfirm(int id, string strUrl)
         {
             var emd = await _unitOfWork.emdRepository.GetByIdAsync(id);
 
@@ -313,8 +364,8 @@ namespace EMD.Controllers
             {
                 _unitOfWork.emdRepository.Delete(emd);
                 await _unitOfWork.Complete();
-
-                return RedirectToAction(nameof(Index));
+                SetAlert("Xóa thành công.", "success");
+                return Redirect(strUrl);
             }
         }
 
@@ -326,6 +377,19 @@ namespace EMD.Controllers
                 status = true,
                 data = ngayHetHan
             });
+        }
+
+        public JsonResult IsStringNameAvailable(string Number)
+        {
+            var boolName = _unitOfWork.emdRepository.Find(x => x.Number.Trim().ToLower() == Number.Trim().ToLower()).FirstOrDefault();
+            if (boolName == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json(false);
+            }
         }
     }
 }

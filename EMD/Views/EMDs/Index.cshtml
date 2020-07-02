@@ -1,4 +1,9 @@
 ﻿@model EMDViewModel
+
+@using X.PagedList;
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Core.Common
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,7 +13,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <a class="btn btn-outline-info" asp-action="Create"><i class="fas fa-plus"></i>&nbsp; Thêm Mới</a>
+                <a class="btn btn-outline-info" asp-action="Create" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-plus"></i>&nbsp; Thêm Mới</a>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -40,37 +45,72 @@
             </div>
         </div>
         <div class="card-body">
-            
+            <form method="get" autocomplete="off">
+
+                <div class="container" style="padding-bottom:10px; background-color: aliceblue;">
+                    @* we will add search criteria *@
+
+                    <div class="col-12">
+                        <div class="row" style="padding-top: 10px;">
+
+                            <div class="col-2">
+                                Nhập thông tin
+                            </div>
+                            <div class="col-md-3">
+                                @*@Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @value="@ViewData["currentFilter"]" } })*@
+                                <input class="form-control" name="searchString" value="@ViewBag.searchString" />
+                            </div>
+
+                            <div class="col-md-2">
+                                Ngày DC
+                            </div>
+
+                            <div class="col-md-3">
+                                <input class="form-control maskInput" name="searchDate" value="@ViewBag.searchDate" />
+                            </div>
+
+                            @*<input type="hidden" name="id" id="hidId" />
+                                <input type="hidden" name="page" id="hidPage" />*@
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary form-control" id="btnSubmit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
             <div style="overflow-x:auto;">
                 <table class="table mytable text-nowrap tblEMD" id="listAll">
                     <thead>
                         <tr class="table-info">
                             <th>#</th>
-                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().Number)</th>
-                            <th style="min-width:130px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SGTCode)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().BatDau)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().KetThuc)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SLVeDatCoc)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().PNR)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NgayDC)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().Number)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SGTCode)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().BatDau)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().KetThuc)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SLVeDatCoc)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().PNR)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NgayDC)</th>
 
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HetHan)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HangHK)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().STDatCoc)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HoanCoc)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().LoaiTien)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TyGia)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HetHan)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HangHK)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().STDatCoc)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HoanCoc)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().LoaiTien)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TyGia)</th>
 
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().LoaiBK)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SLVeDaXuat)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TienXuatVe)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().GhiChu)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TienPhat)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NgayPhat)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().LoaiBK)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SLVeDaXuat)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TienXuatVe)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().GhiChu)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TienPhat)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NgayPhat)</th>
 
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SoCTPhat)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().DongHoSo)</th>
-                            <th style="min-width:100px">@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NguoiNhap)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SoCTPhat)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().DongHoSo)</th>
+                            <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NguoiNhap)</th>
 
                         </tr>
                     </thead>
@@ -79,7 +119,29 @@
                         {
 
                             <tr class="cursor-pointer">
-                                <partial name="_TableButtonPartial" model="item.Id" />
+                                @*<partial name="_TableButtonPartial" model="item.Id" />*@
+
+
+                                <td @*style="width:150px;"*@>
+                                    <div class="btn-group text-white" role="group">
+                                        <a class="btn btn-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-edit"></i></a>
+                                        <a class="btn btn-success btn-sm" asp-action="Details" asp-route-id="@Model"><i class="fas fa-list"></i></a>
+                                        @*<a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model"><i class="fas fa-trash-alt"></i></a>*@
+
+                                        <form asp-action="Delete" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl" method="post">
+
+                                            <span id="confirmDeleteSpan_@item.Id" style="display: none">
+                                                <span class="text-light">Xóa?</span>
+                                                <button type="submit" class="btn btn-danger">Yes</button>
+                                                <a href="#" class="btn btn-primary" onclick="confirmDelete('@item.Id', false)">No</a>
+                                            </span>
+
+                                            <span id="deleteSpan_@item.Id">
+                                                <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete('@item.Id', true)"><i class="fas fa-trash-alt"></i></a>
+                                            </span>
+                                        </form>
+                                    </div>
+                                </td>
 
                                 <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.Number)</td>
                                 <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SGTCode)</td>
@@ -113,40 +175,28 @@
 
                         }
                     </tbody>
-                    @*<tfoot>
-                <tr>
-                    <th>#</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SGTCode)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().BatDau)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().KetThuc)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SLVeDatCoc)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().PNR)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NgayDC)</th>
 
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HetHan)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HangHK)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().STDatCoc)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().HoanCoc)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().LoaiTien)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TyGia)</th>
-
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().LoaiBK)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SLVeDaXuat)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TienXuatVe)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().GhiChu)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().TienPhat)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NgayPhat)</th>
-
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().SoCTPhat)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().DongHoSo)</th>
-                    <th>@Html.DisplayNameFor(m => m.EMDTbls.FirstOrDefault().NguoiNhap)</th>
-
-                </tr>
-            </tfoot>*@
                 </table>
             </div>
 
-
+            @if (Model.EMDTbls != null)
+            {
+                @Html.PagedListPager((IPagedList)Model.EMDTbls, page => Url.Action("Index", new
+           {
+               page = page,
+               option = Context.Request.Query["option"],
+               searchString = @ViewBag.searchString,
+               searchDate = @ViewBag.searchDate
+           }),
+                    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" },
+                        PageClasses = new string[] { "page-link" },
+                        MaximumPageNumbersToDisplay = 5,
+                        UlElementClasses = new[] { "pagination" },
+                        ContainerDivClasses = new[] { "pagination-container" }
+                    }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+            }
         </div>
         <!-- /.card-body -->
         <!-- /.card-footer-->
@@ -171,7 +221,7 @@
             });
 
             $('#listAll').DataTable({
-                "paging": true,
+                "paging": false,
                 "lengthChange": true,
                 "searching": true,
                 "ordering": true,
@@ -181,6 +231,22 @@
         });
     </script>
     <script src="~/js/Admin/EMD/indexController.js"></script>
+
+    <script>
+        function confirmDelete(uniqueId, isDeleteClicked) {
+            var deleteSpan = 'deleteSpan_' + uniqueId;
+            var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
+
+            if (isDeleteClicked) {
+                $('#' + deleteSpan).hide();
+                $('#' + confirmDeleteSpan).show();
+            } else {
+                $('#' + deleteSpan).show();
+                $('#' + confirmDeleteSpan).hide();
+            }
+        }
+    </script>
+
 
     <style>
         .tblEMD .cursor-pointer:hover {

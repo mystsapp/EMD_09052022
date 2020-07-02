@@ -50,7 +50,56 @@ var createController = {
                 },
                 success: function (response) {
 
-                    console.log(response.data);
+                    //console.log(response.data);
+                    if (response.status) {
+                        //console.log(response.data);
+
+                        var data = response.data;
+                        var stringName = data.tour + '\n' + data.cacVeTuCTHK + '\n' + data.slVeDaXuat + '\n' + data.soTienDaXuat + '\n' +
+                            data.cacVeHoanBenCTHK + data.tongThanhToan + data.phiHoan + data.thucTra;
+
+                        //var slv = data.slVeDaXuat.split(' ');
+
+                        // $('#txtTienXuatVe').val(numeral(data.tienXuatVe).format('0,0'));
+                        //$('#txtNguoiNhap').val(data.nguoiNhap);
+
+                        //$('#txtSLVeDaXuat').val(parseInt(slv[5]));
+
+
+                        $('#txtDienGiai').val(stringName);
+
+                        if (data.number2 !== '') {
+                            $('#txtSLVeHoan').val(data.slVeHoan);
+                            $('#txtThucTra').val(data.thucTraNum);
+                        }
+                        else {
+                            $('#txtSLVeHoan').val(0);
+                            $('#txtThucTra').val(0);
+                        }
+
+                    }
+                    else {
+                        $('#txtDienGiai').val('');
+                    }
+                }
+            });
+        });
+
+        $('#txtSLVeDatCoc').on('change', function () {
+            soKhach = $(this).val();
+            codedoan = $('#txtSgtCode').val().toUpperCase();
+            var number1 = $('#txtNumber1').val();
+            $.ajax({
+                url: '/EMDs/DienGiaiBySGTCode',
+                type: 'GET',
+                data: {
+                    sgtCode: codedoan,
+                    number1: number1.trim(),
+                    soKhach: soKhach
+                },
+                success: function (response) {
+
+                    //console.log(response.data);
                     if (response.status) {
                         //console.log(response.data);
 
@@ -97,7 +146,7 @@ var createController = {
                 success: function (response) {
 
                     if (response.status) {
-                        var data = response.data;
+                        //var data = response.data;
                         $('#txtHetHan').val(data);
                     }
                     
