@@ -24,5 +24,6 @@ namespace EMD.Data
         public DbSet<HangHK> HangHKs { get; set; }
         public DbSet<HoanVeModel> HoanVeModels { get; set; }
         public DbSet<LoginViewModel> LoginViewModels { get; set; }
+        public DbSet<EMDCanTru> EMDCanTrus { get; set; }
     }
 }

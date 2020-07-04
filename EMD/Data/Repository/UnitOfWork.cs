@@ -13,6 +13,7 @@ namespace EMD.Data.Repository
         IChiNhanhRepository chiNhanhRepository { get; }
         IDMDaiLyRepository dMDaiLyRepository { get; }
         IRoleRepository roleRepository { get; }
+        IEMDCanTruRepository eMDCanTruRepository { get; }
         Task<int> Complete();
     }
     public class UnitOfWork : IUnitOfWork
@@ -27,6 +28,7 @@ namespace EMD.Data.Repository
             chiNhanhRepository = new ChiNhanhRepository(_context);
             dMDaiLyRepository = new DMDaiLyRepository(_context);
             roleRepository = new RoleRepository(_context);
+            eMDCanTruRepository = new EMDCanTruRepository(_context);
 
         }
         public IEMDRepository emdRepository { get; }
@@ -38,6 +40,8 @@ namespace EMD.Data.Repository
         public IDMDaiLyRepository dMDaiLyRepository { get; }
 
         public IRoleRepository roleRepository { get; }
+
+        public IEMDCanTruRepository eMDCanTruRepository { get; }
 
         public async Task<int> Complete()
         {

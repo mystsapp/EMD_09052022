@@ -41,6 +41,7 @@ namespace EMD
             services.AddTransient<IEMDRepository, EMDRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IEMDCanTruRepository, EMDCanTruRepository>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 

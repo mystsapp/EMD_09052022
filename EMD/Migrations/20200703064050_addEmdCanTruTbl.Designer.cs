@@ -4,14 +4,16 @@ using EMD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMD.Migrations
 {
     [DbContext(typeof(EMDDbContext))]
-    partial class EMDDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200703064050_addEmdCanTruTbl")]
+    partial class addEmdCanTruTbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,9 +140,6 @@ namespace EMD.Migrations
                     b.Property<DateTime>("NgayNhap")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("NgaySua")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("NgayXoa")
                         .HasColumnType("datetime2");
 
@@ -154,9 +153,6 @@ namespace EMD.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserNhap")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserSua")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserXoa")

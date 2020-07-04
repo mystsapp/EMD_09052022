@@ -290,7 +290,7 @@ namespace EMD.Controllers
         // Post: Eidt method
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, string strUrl)
         {
             if (id != EMDViewModel.EMDTbl.Id)
                 return NotFound();
@@ -303,11 +303,12 @@ namespace EMD.Controllers
                 _unitOfWork.emdRepository.Update(EMDViewModel.EMDTbl);
                 await _unitOfWork.Complete();
 
-                return RedirectToAction(nameof(Index));
+                return Redirect(strUrl);
             }
 
             return View(EMDViewModel);
         }
+        
 
         // Get: Details method
         public async Task<IActionResult> Details(int? id)
