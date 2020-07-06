@@ -1,0 +1,116 @@
+﻿@model EMDCanTruViewModel
+@{
+    ViewData["Title"] = "Update";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Cập Nhật</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a asp-route-strUrl="@Model.StrUrl" asp-action="DetailsRedirect">Danh Sách Đặt Cọc</a></li>
+                    <li class="breadcrumb-item active">Cập Nhật Đặt Cọc Cấn Trừ</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-file text-info"></i> Cập Nhật Đặt Cọc Cấn Trừ - <b>@Model.EMDCanTru.OldNumber</b></h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <form method="post" autocomplete="off">
+                <div class="p-4 border rounded">
+
+                    <input type="hidden" asp-for="EMDCanTru.Id" />
+                    <input type="hidden" asp-for="EMDCanTru.OldNumber" />
+                    <input type="hidden" asp-for="EMDCanTru.UserNhap" />
+                    <input type="hidden" asp-for="EMDCanTru.NgayNhap" />
+                    
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group row">
+
+                        <div class="col-md-3">
+                            <label asp-for="EMDCanTru.Number" class="control-label"></label>
+                            <input asp-for="EMDCanTru.Number" class="form-control" id="txtNumber" readonly />
+                            <span asp-validation-for="EMDCanTru.Number" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="EMDCanTru.LoaiBK" class="control-label"></label>
+                            <input asp-for="EMDCanTru.LoaiBK" class="form-control" id="txtSgtCode" />
+                            <span asp-validation-for="EMDCanTru.LoaiBK" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label asp-for="EMDCanTru.STDatCoc" class="control-label"></label>
+                            <input asp-for="EMDCanTru.STDatCoc" asp-format="{0:0,0}" class="form-control numbers" id="txtSTDatCoc" />
+                            <span asp-validation-for="EMDCanTru.STDatCoc" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
+                        <a class="btn btn-success" asp-route-strUrl="@Model.StrUrl" asp-action="DetailsRedirect"><i class="fas fa-backward"></i></a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <!-- /.card-body -->
+
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+@section Scripts{
+    <script>
+
+        //$(function () {
+        //    $(".datepicker").datepicker({
+        //        dateFormat: 'dd/mm/yy'
+        //    });
+        //});
+        function addCommas(x) {
+            var parts = x.toString().split(".");
+            parts[0] = parts[0].replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join(".");
+        }
+        $('input.numbers').keyup(function (event) {
+
+            // Chỉ cho nhập số
+            if (event.which >= 37 && event.which <= 40) return;
+
+            $(this).val(function (index, value) {
+                return addCommas(value);
+            });
+        });
+    </script>
+    <script src="~/js/Admin/EMDCanTru/editController.js"></script>
+}

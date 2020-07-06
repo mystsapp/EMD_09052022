@@ -12,6 +12,7 @@ namespace EMD.Models
     public class EMDViewModel
     {
         public IPagedList<EMDTbl> EMDTbls { get; set; }
+        public IEnumerable<EMDCanTru> EMDCanTrus { get; set; }
         public EMDTbl EMDTbl { get; set; }
         public IEnumerable<HangHK> HangHKs { get; set; }
 

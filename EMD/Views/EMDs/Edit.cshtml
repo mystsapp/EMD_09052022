@@ -15,7 +15,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a asp-action="Index">Danh Sách Đặt Cọc</a></li>
+                    <li class="breadcrumb-item"><a asp-route-strUrl="@Model.StrUrl" asp-controller="EMDCanTrus" asp-action="DetailsRedirect">Danh Sách Đặt Cọc</a></li>
                     <li class="breadcrumb-item active">Cập Nhật Đặt Cọc</li>
                 </ol>
             </div>
@@ -29,7 +29,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-file text-info"></i>Cập Nhật Đặt Cọc</h3>
+            <h3 class="card-title"><i class="fas fa-file text-info"></i> Cập Nhật Đặt Cọc</h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -48,249 +48,186 @@
 
                     <input type="hidden" asp-for="EMDTbl.Id" />
                     <input type="hidden" asp-for="EMDTbl.Create" />
+                    <input type="hidden" asp-for="EMDTbl.Tracking" />
+                    <input type="hidden" asp-for="EMDTbl.CanTru" />
+
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-group row">
 
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.Number" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
-                            <input asp-for="EMDTbl.Number" class="form-control" id="txtNumber1" readonly/>
+                            <input asp-for="EMDTbl.Number" class="form-control" id="txtNumber1" readonly />
                             <span asp-validation-for="EMDTbl.Number" class="text-danger"></span>
                         </div>
 
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.SGTCode" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.SGTCode" class="form-control" id="txtSgtCode" />
                             <span asp-validation-for="EMDTbl.SGTCode" class="text-danger"></span>
                         </div>
 
-
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.BatDau" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input type="text" asp-for="EMDTbl.BatDau" class="form-control maskInput" id="txtBatDau" />
                             <span asp-validation-for="EMDTbl.BatDau" class="text-danger"></span>
                         </div>
 
-                        
+                        <div class="col-md-3">
+                            <label asp-for="EMDTbl.KetThuc" class="control-label"></label>
+                            <input type="text" asp-for="EMDTbl.KetThuc" class="form-control maskInput" id="txtKetThuc" />
+                            <span asp-validation-for="EMDTbl.KetThuc" class="text-danger"></span>
+                        </div>
                     </div>
 
                     <div class="form-group row">
 
-                        <div class="col-1">
-                            <label asp-for="EMDTbl.KetThuc" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
-                            <input type="text" asp-for="EMDTbl.KetThuc" class="form-control maskInput" id="txtKetThuc" />
-                            <span asp-validation-for="EMDTbl.KetThuc" class="text-danger"></span>
-                        </div>
-
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.NgayDC" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input type="text" asp-for="EMDTbl.NgayDC" class="form-control maskInput" />
                             <span asp-validation-for="EMDTbl.NgayDC" class="text-danger"></span>
                         </div>
 
-
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.HetHan" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input type="text" asp-for="EMDTbl.HetHan" class="form-control maskInput" />
                             <span asp-validation-for="EMDTbl.HetHan" class="text-danger"></span>
                         </div>
 
-
-                    </div>
-
-                    <div class="form-group row">
-
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.SLVeDatCoc" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.SLVeDatCoc" class="form-control" id="txtSLVeDatCoc" />
                             <span asp-validation-for="EMDTbl.SLVeDatCoc" class="text-danger"></span>
                         </div>
 
-
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.HangHK" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             @*<input asp-for="EMDTbl.HangHK" class="form-control" />*@
                             <select class="form-control" asp-for="EMDTbl.HangHK" asp-items="@Model.HangHKs.ToSelectListItemString(Model.EMDTbl.HangHK)"></select>
                             <span asp-validation-for="EMDTbl.HangHK" class="text-danger"></span>
                         </div>
 
-
-                        <div class="col-1">
-                            <label asp-for="EMDTbl.STDatCoc" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
-                            <input asp-for="EMDTbl.STDatCoc" asp-format="{0:0,0}" class="form-control numbers" />
-                            <span asp-validation-for="EMDTbl.STDatCoc" class="text-danger"></span>
-                        </div>
                     </div>
 
                     <div class="form-group row">
 
-                        <div class="col-1">
-                            <label asp-for="EMDTbl.HoanCoc" class="control-label"></label>
+                        <div class="col-md-3">
+                            <label asp-for="EMDTbl.STDatCoc" class="control-label"></label>
+                            <input asp-for="EMDTbl.STDatCoc" asp-format="{0:0,0}" class="form-control numbers" />
+                            <span asp-validation-for="EMDTbl.STDatCoc" class="text-danger"></span>
                         </div>
-                        <div class="col-3">
+
+
+                        <div class="col-md-3">
+                            <label asp-for="EMDTbl.HoanCoc" class="control-label"></label>
                             <input type="text" asp-for="EMDTbl.HoanCoc" class="form-control maskInput" />
                             <span asp-validation-for="EMDTbl.HoanCoc" class="text-danger"></span>
                         </div>
 
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.LoaiBK" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.LoaiBK" class="form-control" />
                             <span asp-validation-for="EMDTbl.LoaiBK" class="text-danger"></span>
                         </div>
 
-
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.SLVeDaXuat" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.SLVeDaXuat" class="form-control" />
                             <span asp-validation-for="EMDTbl.SLVeDaXuat" class="text-danger"></span>
                         </div>
-
                     </div>
-
                     <div class="form-group row">
-                        <div class="col-1">
+
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.TienXuatVe" class="control-label "></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.TienXuatVe" asp-format="{0:0,0}" class="form-control numbers" />
                             <span asp-validation-for="EMDTbl.TienXuatVe" class="text-danger"></span>
                         </div>
 
-
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.TienPhat" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.TienPhat" asp-format="{0:0,0}" class="form-control numbers" />
                             <span asp-validation-for="EMDTbl.TienPhat" class="text-danger"></span>
                         </div>
 
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.NgayPhat" class="control-label "></label>
-                        </div>
-                        <div class="col-3">
                             <input type="text" asp-for="EMDTbl.NgayPhat" class="form-control maskInput" />
                             <span asp-validation-for="EMDTbl.NgayPhat" class="text-danger"></span>
                         </div>
 
-                    </div>
 
-                    <div class="form-group row">
-
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.SoCTPhat" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.SoCTPhat" class="form-control" />
                             <span asp-validation-for="EMDTbl.SoCTPhat" class="text-danger"></span>
                         </div>
 
-                        <div class="col-1">
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.LoaiTien" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.LoaiTien" class="form-control" />
                             <span asp-validation-for="EMDTbl.LoaiTien" class="text-danger"></span>
                         </div>
 
-
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.TyGia" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.TyGia" class="form-control" />
                             <span asp-validation-for="EMDTbl.TyGia" class="text-danger"></span>
                         </div>
 
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-1">
-                            <label asp-for="EMDTbl.GhiChu" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
-                            <textarea asp-for="EMDTbl.GhiChu" class="form-control"></textarea>
-                            <span asp-validation-for="EMDTbl.GhiChu" class="text-danger"></span>
-                        </div>
-
-
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.DongHoSo" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input type="text" asp-for="EMDTbl.DongHoSo" class="form-control maskInput" />
                             <span asp-validation-for="EMDTbl.DongHoSo" class="text-danger"></span>
                         </div>
 
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.PNR" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.PNR" class="form-control" />
                             <span asp-validation-for="EMDTbl.PNR" class="text-danger"></span>
                         </div>
 
-                        
-
                     </div>
 
                     <div class="form-group row">
 
-                        <div class="col-1">
-                            <label asp-for="EMDTbl.NguoiNhap" class="control-label"></label>
+                        <div class="col-md-3">
+                            <label asp-for="EMDTbl.GhiChu" class="control-label"></label>
+                            <textarea asp-for="EMDTbl.GhiChu" class="form-control"></textarea>
+                            <span asp-validation-for="EMDTbl.GhiChu" class="text-danger"></span>
                         </div>
-                        <div class="col-3">
+
+                        <div class="col-md-3">
+                            <label asp-for="EMDTbl.NguoiNhap" class="control-label"></label>
                             <input asp-for="EMDTbl.NguoiNhap" class="form-control" readonly />
                             <span asp-validation-for="EMDTbl.NguoiNhap" class="text-danger"></span>
                         </div>
 
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.SLVeHoan" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.SLVeHoan" class="form-control " id="txtNguoiNhap" readonly />
                             <span asp-validation-for="EMDTbl.SLVeHoan" class="text-danger"></span>
                         </div>
 
-                        <div class="col-1">
+                        <div class="col-md-3">
                             <label asp-for="EMDTbl.ThucTra" class="control-label"></label>
-                        </div>
-                        <div class="col-3">
                             <input asp-for="EMDTbl.ThucTra" class="form-control " id="txtNguoiNhap" readonly />
                             <span asp-validation-for="EMDTbl.ThucTra" class="text-danger"></span>
                         </div>
 
+
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-1">
+
+                        <div class="col-md-12">
                             <label asp-for="EMDTbl.DienGiai" class="control-label"></label>
-                        </div>
-                        <div class="col-11">
-                            <textarea asp-for="EMDTbl.DienGiai" class="form-control" rows="12"></textarea>
+                            <textarea asp-for="EMDTbl.DienGiai" class="form-control" rows="12" id="txtDienGiai"></textarea>
                             <span asp-validation-for="EMDTbl.DienGiai" class="text-danger"></span>
                         </div>
 
@@ -299,12 +236,10 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
-                        <a class="btn btn-success" asp-action="Index"><i class="fas fa-backward"></i></a>
+                        <a class="btn btn-success" asp-route-strUrl="@Model.StrUrl" asp-controller="EMDCanTrus" asp-action="DetailsRedirect"><i class="fas fa-backward"></i></a>
                     </div>
                 </div>
             </form>
-
-
 
         </div>
         <!-- /.card-body -->
@@ -316,13 +251,27 @@
 <!-- /.content -->
 
 @section Scripts{
-    @*<script>
+    <script>
 
-        $(function () {
-            $(".datepicker").datepicker({
-                dateFormat: 'dd/mm/yy'
+        //$(function () {
+        //    $(".datepicker").datepicker({
+        //        dateFormat: 'dd/mm/yy'
+        //    });
+        //});
+        function addCommas(x) {
+            var parts = x.toString().split(".");
+            parts[0] = parts[0].replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parts.join(".");
+        }
+        $('input.numbers').keyup(function (event) {
+
+            // Chỉ cho nhập số
+            if (event.which >= 37 && event.which <= 40) return;
+
+            $(this).val(function (index, value) {
+                return addCommas(value);
             });
         });
-    </script>*@
-    @*<script src="~/js/Admin/EMD/editController.js"></script>*@
+    </script>
+    <script src="~/js/Admin/EMD/editController.js"></script>
 }

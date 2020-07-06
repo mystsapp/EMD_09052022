@@ -40,6 +40,7 @@ var createController = {
                 }
             });
 
+            // for dien giai
             var number1 = $('#txtNumber1').val();
             $.ajax({
                 url: '/EMDs/DienGiaiBySGTCode',

@@ -47,6 +47,8 @@ namespace EMD.Data.Repository
             //{
             //    new SqlParameter("@sgtcode", DateTime.Parse(sgtCode))
             //};
+
+            //var sgtcodeArray = sgtCode.Split('-');
             var result = await _context.SGTCodeModels.FromSqlRaw("EXECUTE dbo.spSearchCodeDoan {0}", sgtCode).ToListAsync();
 
             return result.SingleOrDefault();
@@ -274,7 +276,7 @@ namespace EMD.Data.Repository
 
             // retrieve list from database/whereverand
 
-            var list = GetAll().AsQueryable();
+            var list = GetAll().Where(x => x.Xoa == false).AsQueryable();
             
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -295,7 +297,7 @@ namespace EMD.Data.Repository
             }
 
             // page the list
-            const int pageSize = 2;
+            const int pageSize = 10;
             decimal aa = (decimal)list.Count() / (decimal)pageSize;
             var bb = Math.Ceiling(aa);
             if (page > bb)

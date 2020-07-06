@@ -89,6 +89,11 @@ namespace EMD.Data.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? Create { get; set; }
 
+
+        [DisplayName("Người Sửa")]
+        [MaxLength(50), Column(TypeName = "varchar(50)")]
+        public string NguoiSua { get; set; }
+
         [DisplayName("Ngày Sửa")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? NgaySua { get; set; }
@@ -117,5 +122,17 @@ namespace EMD.Data.Models
         [DisplayName("Thực Trả")]
         [MaxLength(50), Column(TypeName = "varchar(50)")]
         public string ThucTra { get; set; }
+
+        [DisplayName("Cấn trừ")]
+        public bool CanTru { get; set; }
+
+        public string UserXoa { get; set; }
+        public DateTime NgayXoa { get; set; }
+
+        //[Column(TypeName = "nvarchar(MAX)")]
+        public string LogFile { get; set; }
+
+        public bool? Xoa { get; set; }
+
     }
 }

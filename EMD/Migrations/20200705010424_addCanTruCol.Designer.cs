@@ -4,14 +4,16 @@ using EMD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMD.Migrations
 {
     [DbContext(typeof(EMDDbContext))]
-    partial class EMDDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200705010424_addCanTruCol")]
+    partial class addCanTruCol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,9 +225,6 @@ namespace EMD.Migrations
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("LogFile")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("NgayDC")
                         .HasColumnType("datetime2");
 
@@ -235,14 +234,7 @@ namespace EMD.Migrations
                     b.Property<DateTime?>("NgaySua")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("NgayXoa")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("NguoiNhap")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("NguoiSua")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -292,12 +284,6 @@ namespace EMD.Migrations
 
                     b.Property<decimal>("TyGia")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("UserXoa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Xoa")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

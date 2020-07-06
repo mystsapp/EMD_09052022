@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EMD.Data.Models;
 using EMD.Data.Repository;
 using EMD.Models;
+using EMD.Utilities;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 
 namespace EMD.Controllers
@@ -40,17 +43,29 @@ namespace EMD.Controllers
                 var emd = _unitOfWork.emdRepository.GetById(id);
                 if (emd == null)
                 {
+
                     var lastId = _unitOfWork.emdRepository
                                               .GetAll().OrderByDescending(x => x.Id)
                                               .FirstOrDefault().Id;
                     id = lastId;
 
                 }
-                //LoaiVM.LoaiThucDon = _unitOfWork.loaiThucDonRepository.GetById(id);
-                //LoaiVM.ThucDons = _unitOfWork.thucDonRepository.Find(x => x.MaLoaiId.Equals(id)).ToList();
+                else
+                {
+                    //////////////// DS EMD can tru  theo EmD /////////////////
+                    EMDViewModel.EMDTbl = emd;
+                    EMDViewModel.EMDCanTrus = _unitOfWork.eMDCanTruRepository.Find(x => x.OldNumber == emd.Number && x.TimThay); // theo emd cu va timthay == true
+                    if (EMDViewModel.EMDCanTrus.Count() == 0)
+                    {
+                        EMDViewModel.EMDCanTrus = null;
+                    }
+                    //////////////// DS EMD can tru  theo EmD /////////////////
+                }
+
             }
 
             EMDViewModel.EMDTbls = _unitOfWork.emdRepository.ListEMD(searchString, searchDate, page);
+
             return View(EMDViewModel);
         }
 
@@ -68,14 +83,17 @@ namespace EMD.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePOST(string strUrl)
         {
+            var user = HttpContext.Session.Gets<User>("loginUser").FirstOrDefault();
             if (!ModelState.IsValid)
             {
                 return View(EMDViewModel);
             }
 
             EMDViewModel.EMDTbl.Create = DateTime.Now;
+            EMDViewModel.EMDTbl.NguoiNhap = user.Username;
             EMDViewModel.EMDTbl.SGTCode = EMDViewModel.EMDTbl.SGTCode.ToUpper();
             EMDViewModel.EMDTbl.Number = EMDViewModel.Number;
+            EMDViewModel.EMDTbl.Xoa = false;
 
             string hangHK = EMDViewModel.EMDTbl.HangHK;
             if (!string.IsNullOrEmpty(hangHK))
@@ -83,6 +101,9 @@ namespace EMD.Controllers
 
             try
             {
+                // ghi log
+                EMDViewModel.EMDTbl.LogFile = EMDViewModel.EMDTbl.LogFile + "-User tạo: " + user.Username + " vào lúc: " + System.DateTime.Now.ToString();
+
                 _unitOfWork.emdRepository.Create(EMDViewModel.EMDTbl);
                 await _unitOfWork.Complete();
                 SetAlert("Thêm mới thành công.", "success");
@@ -134,7 +155,7 @@ namespace EMD.Controllers
 
             var dienGiaiVM = new DienGiaiViewModel();
 
-            if(soKhach == 0)
+            if (soKhach == 0)
             {
                 dienGiaiVM.Tour = ds.tuyentq + " " + ds.batdau.ToString("dd/MM/yyyy") + "-" + ds.ketthuc.ToString("dd/MM/yyyy") + " * " + ds.sokhach + "pax"; // ** ///
 
@@ -271,7 +292,7 @@ namespace EMD.Controllers
         //}
 
         // Get: Edit method
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string strUrl)
         {
             if (id == null)
                 return NotFound();
@@ -284,6 +305,7 @@ namespace EMD.Controllers
             if (EMDViewModel.EMDTbl == null)
                 return NotFound();
 
+            EMDViewModel.StrUrl = strUrl;
             return View(EMDViewModel);
         }
 
@@ -292,26 +314,36 @@ namespace EMD.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, string strUrl)
         {
+            var user = HttpContext.Session.Gets<User>("loginUser").FirstOrDefault();
             if (id != EMDViewModel.EMDTbl.Id)
                 return NotFound();
 
-            if (ModelState.IsValid)
-            {
+            EMDViewModel.EMDTbl.NgaySua = DateTime.Now;
+            EMDViewModel.EMDTbl.NguoiSua = user.Username;
+            //EMDViewModel.EMDTbl.Tracking = "Not";
+            EMDViewModel.EMDTbl.Xoa = false;
 
-                EMDViewModel.EMDTbl.NgaySua = DateTime.Now;
+            //if (!ModelState.IsValid)
+            //{
+            //    EMDViewModel.HangHKs = await _unitOfWork.emdRepository.GetHangHKs();
+            //    return View(EMDViewModel);
+            //}
 
-                _unitOfWork.emdRepository.Update(EMDViewModel.EMDTbl);
-                await _unitOfWork.Complete();
+            // ghi log
+            EMDViewModel.EMDTbl.LogFile = EMDViewModel.EMDTbl.LogFile + "-User cập nhật: " + user.Username + " vào lúc: " + System.DateTime.Now.ToString();
 
-                return Redirect(strUrl);
-            }
+            _unitOfWork.emdRepository.Update(EMDViewModel.EMDTbl);
+            await _unitOfWork.Complete();
 
-            return View(EMDViewModel);
+            SetAlert("Cập nhật thành công", "success");
+            return Redirect(strUrl);
+            
+            
         }
-        
+
 
         // Get: Details method
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string strUrl)
         {
             if (id == null)
                 return NotFound();
@@ -321,6 +353,7 @@ namespace EMD.Controllers
             if (EMDViewModel.EMDTbl == null)
                 return NotFound();
 
+            EMDViewModel.StrUrl = strUrl;
             return View(EMDViewModel);
         }
 
@@ -357,13 +390,17 @@ namespace EMD.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirm(int id, string strUrl)
         {
+            var user = HttpContext.Session.Gets<User>("loginUser").FirstOrDefault();
             var emd = await _unitOfWork.emdRepository.GetByIdAsync(id);
 
             if (emd == null)
                 return NotFound();
             else
             {
-                _unitOfWork.emdRepository.Delete(emd);
+                // ghi log
+                emd.LogFile = emd.LogFile + System.Environment.NewLine + "===================" + System.Environment.NewLine + "-User: " + user.Username + " xoá EMD: " + emd.Number + " vào lúc: " + System.DateTime.Now.ToString();
+                emd.Xoa = true;
+                _unitOfWork.emdRepository.Update(emd);
                 await _unitOfWork.Complete();
                 SetAlert("Xóa thành công.", "success");
                 return Redirect(strUrl);
