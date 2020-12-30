@@ -36,7 +36,7 @@ namespace EMD.Controllers
             ViewBag.searchString = searchString;
             ViewBag.searchDate = searchDate;
 
-            // for delete
+            // for delete or emd click
             if (id != 0)
             {
 
@@ -65,6 +65,13 @@ namespace EMD.Controllers
             }
 
             EMDViewModel.EMDTbls = _unitOfWork.emdRepository.ListEMD(searchString, searchDate, page);
+
+            // emd click
+            //if(id != 0)
+            //{
+            //    EMDViewModel.EMDTbl = _unitOfWork.emdRepository.GetById(id);
+            //}
+            // emd click
 
             return View(EMDViewModel);
         }
@@ -141,7 +148,7 @@ namespace EMD.Controllers
             // ctbanve
             var dsDienGiai = await _unitOfWork.emdRepository.DienGiaiBySGTCode(sgtCode);
 
-            // tourleob
+            // tourle
             var ds = await _unitOfWork.emdRepository.GetBySGTCode(sgtCode);
 
             // cthoanve
@@ -155,23 +162,28 @@ namespace EMD.Controllers
 
             var dienGiaiVM = new DienGiaiViewModel();
 
-            if (soKhach == 0)
+            if (ds != null)
             {
-                dienGiaiVM.Tour = ds.tuyentq + " " + ds.batdau.ToString("dd/MM/yyyy") + "-" + ds.ketthuc.ToString("dd/MM/yyyy") + " * " + ds.sokhach + "pax"; // ** ///
+                if (soKhach == 0)
+                {
+                    dienGiaiVM.Tour = ds.tuyentq + " " + ds.batdau.ToString("dd/MM/yyyy") + "-" + ds.ketthuc.ToString("dd/MM/yyyy") + " * " + ds.sokhach + "pax"; // ** ///
 
+                }
+                else
+                {
+                    dienGiaiVM.Tour = ds.tuyentq + " " + ds.batdau.ToString("dd/MM/yyyy") + "-" + ds.ketthuc.ToString("dd/MM/yyyy") + " * " + soKhach + "pax"; // ** ///
+
+                }
             }
             else
             {
-                dienGiaiVM.Tour = ds.tuyentq + " " + ds.batdau.ToString("dd/MM/yyyy") + "-" + ds.ketthuc.ToString("dd/MM/yyyy") + " * " + soKhach + "pax"; // ** ///
-
+                dienGiaiVM.Tour = "";
             }
+
             dienGiaiVM.CacVeTuCTHK = "Các vé đã xuất bên CTHK: \n";
             dienGiaiVM.SLVeDaXuat = "Số lượng vé đã xuất: ";
             dienGiaiVM.SoTienDaXuat = "Số tiền đã xuất: ";
             dienGiaiVM.NguoiNhap = dsDienGiai.FirstOrDefault().nguoinhap;
-
-
-
 
             if (dsDienGiai.Count() != 0)
             {
@@ -337,8 +349,8 @@ namespace EMD.Controllers
 
             SetAlert("Cập nhật thành công", "success");
             return Redirect(strUrl);
-            
-            
+
+
         }
 
 

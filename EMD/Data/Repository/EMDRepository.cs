@@ -47,10 +47,19 @@ namespace EMD.Data.Repository
             //{
             //    new SqlParameter("@sgtcode", DateTime.Parse(sgtCode))
             //};
-
-            //var sgtcodeArray = sgtCode.Split('-');
-            var result = await _context.SGTCodeModels.FromSqlRaw("EXECUTE dbo.spSearchCodeDoan {0}", sgtCode).ToListAsync();
-
+            var result = new List<SGTCodeModel>();
+            // cat chuoi
+            var sgtcodeArray = sgtCode.Split('-');
+            if (sgtcodeArray[0].Contains("TOB"))
+            {
+                 result = await _context.SGTCodeModels.FromSqlRaw("EXECUTE dbo.spSearchCodeDoan {0}", sgtCode).ToListAsync();
+                //return result.SingleOrDefault();
+            }
+            if(sgtcodeArray[0].Contains("084"))
+            {
+                 result = await _context.SGTCodeModels.FromSqlRaw("EXECUTE dbo.spSearchCodeDoanND {0}", sgtCode).ToListAsync();
+                
+            }
             return result.SingleOrDefault();
         }
 
@@ -276,7 +285,8 @@ namespace EMD.Data.Repository
 
             // retrieve list from database/whereverand
 
-            var list = GetAll().Where(x => x.Xoa == false).AsQueryable();
+            //var list = GetAll().Where(x => x.Xoa == false).AsQueryable();
+            var list = GetAll().Where(x => x.Xoa != true).AsQueryable();
             
             if (!string.IsNullOrEmpty(searchString))
             {

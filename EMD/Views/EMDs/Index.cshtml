@@ -122,7 +122,7 @@
 
                             if (item.CanTru)
                             {
-                                <tr class="cursor-pointer  text-warning">
+                                <tr id="emd_@item.Id" class="cursor-pointer  text-warning">
 
                                     <td @*style="width:150px;"*@>
                                         <div class="btn-group text-white" role="group">
@@ -136,11 +136,11 @@
                                                 <span id="confirmDeleteSpan_@item.Id" style="display: none">
                                                     <span class="text-light">Xóa?</span>
                                                     <button type="submit" class="btn btn-danger">Yes</button>
-                                                    <a href="#" class="btn btn-primary" onclick="confirmDelete('@item.Id', false)">No</a>
+                                                    <button type="button" class="btn btn-primary" onclick="confirmDelete('@item.Id', false)">No</button>
                                                 </span>
 
                                                 <span id="deleteSpan_@item.Id">
-                                                    <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete('@item.Id', true)"><i class="fas fa-trash-alt"></i></a>
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('@item.Id', true)"><i class="fas fa-trash-alt"></i></button>
                                                 </span>
                                             </form>
                                         </div>
@@ -178,13 +178,13 @@
                             }
                             else
                             {
-                                <tr class="cursor-pointer">
+                                <tr id="emd_@item.Id" class="cursor-pointer">
 
                                     <td @*style="width:150px;"*@>
                                         <div class="btn-group text-white" role="group">
                                             <a class="btn btn-info btn-sm" title="EMD cấn trừ" asp-controller="EMDCanTrus" asp-action="EMDPlus" asp-route-emdOldId="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-plus-square"></i></a>
-                                            <a class="btn btn-primary btn-sm" title="Cập nhật" asp-action="Update" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-edit"></i></a>
-                                            <a class="btn btn-success btn-sm" asp-action="Details" asp-route-id="@Model"><i class="fas fa-list"></i></a>
+                                            <a class="btn btn-primary btn-sm" title="Cập nhật" asp-action="Edit" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-edit"></i></a>
+                                            <a class="btn btn-success btn-sm" title="Chi tiết" asp-action="Details" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-list"></i></a>
                                             @*<a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model"><i class="fas fa-trash-alt"></i></a>*@
 
                                             <form asp-action="Delete" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl" method="post">
@@ -192,11 +192,11 @@
                                                 <span id="confirmDeleteSpan_@item.Id" style="display: none">
                                                     <span class="text-light">Xóa?</span>
                                                     <button type="submit" class="btn btn-danger">Yes</button>
-                                                    <a href="#" class="btn btn-primary" onclick="confirmDelete('@item.Id', false)">No</a>
+                                                    <button type="button" class="btn btn-primary" onclick="confirmDelete('@item.Id', false)">No</button>
                                                 </span>
 
                                                 <span id="deleteSpan_@item.Id">
-                                                    <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete('@item.Id', true)"><i class="fas fa-trash-alt"></i></a>
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('@item.Id', true)"><i class="fas fa-trash-alt"></i></button>
                                                 </span>
                                             </form>
                                         </div>
@@ -366,7 +366,7 @@
             $('#listAll').DataTable({
                 "paging": false,
                 "lengthChange": true,
-                "searching": true,
+                "searching": false,
                 "ordering": true,
                 "info": true,
                 "autoWidth": false,
@@ -388,24 +388,38 @@
                 $('#' + confirmDeleteSpan).hide();
             }
         }
+
+
+           if (@Model.EMDTbl.Id != 0) {
+                if ($('#emd_@Model.EMDTbl.Id').hasClass("hoverClass"))
+                    $('#emd_@Model.EMDTbl.Id').removeClass("hoverClass");
+                else {
+                    $('#emd_@Model.EMDTbl.Id').removeClass("hoverClass");
+                    $('#emd_@Model.EMDTbl.Id').addClass("hoverClass");
+                }
+                debugger
+                // chay xuong tab CTInvoice
+                location.href = "#CTIVSection";
+            }
+
     </script>
 
 
     <style>
-        #listAll {
+        /*#listAll {
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
+        }*/
         #search {
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
-        .tblEMD .cursor-pointer:hover {
+        /*.tblEMD .cursor-pointer:hover {
             background-color: #3E5C9A;
             cursor: pointer;
         }
 
         .hoverClass {
             background-color: #3E5C9A;
-        }
+        }*/
     </style>
 }
 

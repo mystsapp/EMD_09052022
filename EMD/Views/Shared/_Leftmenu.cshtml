@@ -86,7 +86,7 @@
                     @* Danh muc ban giao *@
 
                     @{
-                        var roleName = HttpContextAccessor.HttpContext.Session.Gets<User>("loginUser").SingleOrDefault().Role.Name.Equals("Admin");
+                        var roleName = HttpContextAccessor.HttpContext.Session.Gets<User>("loginUser").SingleOrDefault().Role.Name.Equals("Admins");
                     }
                     @if (roleName)
                     {

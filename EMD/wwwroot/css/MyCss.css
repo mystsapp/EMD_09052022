@@ -1,9 +1,6 @@
-﻿/*.error {
-    color: red;
-}*/
-/*.error {
+﻿.error {
     border: 1px solid #A94442;
-}*/
+}
 
 .mypicture {
     width: 203px;
