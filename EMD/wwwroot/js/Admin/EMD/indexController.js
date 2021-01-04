@@ -3,6 +3,15 @@
         indexController.registerEvent();
     },
     registerEvent: function () {
+        $.each($('.cursor-pointer'), function (i, item) {
+
+            var huy = $(item).data('cantru');
+            //console.log(huy);
+            if (huy === 'True') {
+                $(this).addClass('text-warning');
+            }
+
+        });
         
         $('.tblEMD .cursor-pointer').off('click').on('click', function () {
             if ($(this).hasClass("hoverClass"))

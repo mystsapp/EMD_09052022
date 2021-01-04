@@ -1,4 +1,5 @@
 using EMD.Data;
+using EMD.Data.Models_QLTaiKhoan;
 using EMD.Data.Repository;
 using LoggerService;
 using Microsoft.AspNetCore.Builder;
@@ -37,11 +38,18 @@ namespace EMD
             services.AddControllersWithViews();
 
             services.AddDbContext<EMDDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))/*.EnableSensitiveDataLogging()*/);
+            services.AddDbContext<qltaikhoanContext>(options => options.UseSqlServer(Configuration.GetConnectionString("QLTaiKhoanConnection"))/*.EnableSensitiveDataLogging()*/);
 
+            // EMD
             services.AddTransient<IEMDRepository, EMDRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IEMDCanTruRepository, EMDCanTruRepository>();
+
+            // qltaikhoan
+            services.AddTransient<IUserQLTaiKhoanRepository, UserQLTaiKhoanRepository>();
+            services.AddTransient<IApplicationUserQLTaiKhoanRepository, ApplicationUserQLTaiKhoanRepository>();
+            services.AddTransient<IApplicationQLTaiKhoanRepository, ApplicationQLTaiKhoanRepository>();
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 

@@ -1,0 +1,34 @@
+﻿using EMD.Data.Models_QLTaiKhoan;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace EMD.Data.Repository
+{
+    public interface IApplicationQLTaiKhoanRepository
+    {
+        IEnumerable<Application> GetAll();
+        Task<Application> GetByIdAsync(string id);
+
+    }
+    public class ApplicationQLTaiKhoanRepository : IApplicationQLTaiKhoanRepository
+    {
+        private readonly qltaikhoanContext _qltaikhoanContext;
+
+        public ApplicationQLTaiKhoanRepository(qltaikhoanContext qltaikhoanContext)
+        {
+            _qltaikhoanContext = qltaikhoanContext;
+        }
+
+        public IEnumerable<Application> GetAll()
+        {
+            return _qltaikhoanContext.Application;
+        }
+
+        public async Task<Application> GetByIdAsync(string id)
+        {
+            return await _qltaikhoanContext.Application.FindAsync(id);
+        }
+    }
+}

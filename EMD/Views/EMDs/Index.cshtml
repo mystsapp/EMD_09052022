@@ -120,119 +120,59 @@
                         @foreach (var item in Model.EMDTbls)
                         {
 
-                            if (item.CanTru)
-                            {
-                                <tr id="emd_@item.Id" class="cursor-pointer  text-warning">
+                            <tr id="emd_@item.Id" class="cursor-pointer"data-cantru="@item.CanTru">
 
-                                    <td @*style="width:150px;"*@>
-                                        <div class="btn-group text-white" role="group">
-                                            <a class="btn btn-info btn-sm" title="EMD cấn trừ" asp-controller="EMDCanTrus" asp-action="EMDPlus" asp-route-emdOldId="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-plus-square"></i></a>
-                                            <a class="btn btn-primary btn-sm" title="Cập nhật" asp-action="Edit" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-edit"></i></a>
-                                            <a class="btn btn-success btn-sm" title="Chi tiết" asp-action="Details" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-list"></i></a>
-                                            @*<a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model"><i class="fas fa-trash-alt"></i></a>*@
+                                <td @*style="width:150px;"*@>
+                                    <div class="btn-group text-white" role="group">
+                                        <a class="btn btn-info btn-sm" title="EMD cấn trừ" asp-controller="EMDCanTrus" asp-action="EMDPlus" asp-route-emdOldId="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-plus-square"></i></a>
+                                        <a class="btn btn-primary btn-sm" title="Cập nhật" asp-action="Edit" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-edit"></i></a>
+                                        <a class="btn btn-success btn-sm" title="Chi tiết" asp-action="Details" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-list"></i></a>
+                                        @*<a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model"><i class="fas fa-trash-alt"></i></a>*@
 
-                                            <form asp-action="Delete" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl" method="post">
+                                        <form asp-action="Delete" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl" method="post">
 
-                                                <span id="confirmDeleteSpan_@item.Id" style="display: none">
-                                                    <span class="text-light">Xóa?</span>
-                                                    <button type="submit" class="btn btn-danger">Yes</button>
-                                                    <button type="button" class="btn btn-primary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                                </span>
+                                            <span id="confirmDeleteSpan_@item.Id" style="display: none">
+                                                <span class="text-light">Xóa?</span>
+                                                <button type="submit" class="btn btn-danger">Yes</button>
+                                                <button type="button" class="btn btn-primary" onclick="confirmDelete('@item.Id', false)">No</button>
+                                            </span>
 
-                                                <span id="deleteSpan_@item.Id">
-                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('@item.Id', true)"><i class="fas fa-trash-alt"></i></button>
-                                                </span>
-                                            </form>
-                                        </div>
-                                    </td>
+                                            <span id="deleteSpan_@item.Id">
+                                                <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('@item.Id', true)"><i class="fas fa-trash-alt"></i></button>
+                                            </span>
+                                        </form>
+                                    </div>
+                                </td>
 
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.Number)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SGTCode)</td>
-                                    @*@<td>Html.DisplayFor(m => item.BatDau)</td>*@
-                                    <td class="tdVal" data-id="@item.Id">@Html.Raw(item.BatDau.Value.ToShortDateString())</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.Raw(item.KetThuc.Value.ToShortDateString())</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SLVeDatCoc)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.PNR)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NgayDC)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.Number)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SGTCode)</td>
+                                @*@<td>Html.DisplayFor(m => item.BatDau)</td>*@
+                                <td class="tdVal" data-id="@item.Id">@Html.Raw(item.BatDau.Value.ToShortDateString())</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.Raw(item.KetThuc.Value.ToShortDateString())</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SLVeDatCoc)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.PNR)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NgayDC)</td>
 
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.HetHan)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.HangHK)</td>
-                                    @*  class="tdVal" data-id="@item.Id"<td>@Html.DisplayFor(m => item.STDatCoc)</td>*@
-                                    <td class="tdVal" data-id="@item.Id">@Html.Raw(item.STDatCoc.ToString("N0"))</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.HoanCoc)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.LoaiTien)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.TyGia)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.HetHan)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.HangHK)</td>
+                                @*  class="tdVal" data-id="@item.Id"<td>@Html.DisplayFor(m => item.STDatCoc)</td>*@
+                                <td class="tdVal" data-id="@item.Id">@Html.Raw(item.STDatCoc.ToString("N0"))</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.HoanCoc)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.LoaiTien)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.TyGia)</td>
 
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.LoaiBK)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SLVeDaXuat)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienXuatVe.ToString("N0"))</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.GhiChu)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienPhat.ToString("N0"))</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NgayPhat)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.LoaiBK)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SLVeDaXuat)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienXuatVe.ToString("N0"))</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.GhiChu)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienPhat.ToString("N0"))</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NgayPhat)</td>
 
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SoCTPhat)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.DongHoSo)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NguoiNhap)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SoCTPhat)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.DongHoSo)</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NguoiNhap)</td>
 
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr id="emd_@item.Id" class="cursor-pointer">
-
-                                    <td @*style="width:150px;"*@>
-                                        <div class="btn-group text-white" role="group">
-                                            <a class="btn btn-info btn-sm" title="EMD cấn trừ" asp-controller="EMDCanTrus" asp-action="EMDPlus" asp-route-emdOldId="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-plus-square"></i></a>
-                                            <a class="btn btn-primary btn-sm" title="Cập nhật" asp-action="Edit" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-edit"></i></a>
-                                            <a class="btn btn-success btn-sm" title="Chi tiết" asp-action="Details" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-list"></i></a>
-                                            @*<a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model"><i class="fas fa-trash-alt"></i></a>*@
-
-                                            <form asp-action="Delete" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl" method="post">
-
-                                                <span id="confirmDeleteSpan_@item.Id" style="display: none">
-                                                    <span class="text-light">Xóa?</span>
-                                                    <button type="submit" class="btn btn-danger">Yes</button>
-                                                    <button type="button" class="btn btn-primary" onclick="confirmDelete('@item.Id', false)">No</button>
-                                                </span>
-
-                                                <span id="deleteSpan_@item.Id">
-                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('@item.Id', true)"><i class="fas fa-trash-alt"></i></button>
-                                                </span>
-                                            </form>
-                                        </div>
-                                    </td>
-
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.Number)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SGTCode)</td>
-                                    @*@<td>Html.DisplayFor(m => item.BatDau)</td>*@
-                                    <td class="tdVal" data-id="@item.Id">@Html.Raw(item.BatDau.Value.ToShortDateString())</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.Raw(item.KetThuc.Value.ToShortDateString())</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SLVeDatCoc)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.PNR)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NgayDC)</td>
-
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.HetHan)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.HangHK)</td>
-                                    @*  class="tdVal" data-id="@item.Id"<td>@Html.DisplayFor(m => item.STDatCoc)</td>*@
-                                    <td class="tdVal" data-id="@item.Id">@Html.Raw(item.STDatCoc.ToString("N0"))</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.HoanCoc)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.LoaiTien)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.TyGia)</td>
-
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.LoaiBK)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SLVeDaXuat)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienXuatVe.ToString("N0"))</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.GhiChu)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienPhat.ToString("N0"))</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NgayPhat)</td>
-
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SoCTPhat)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.DongHoSo)</td>
-                                    <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NguoiNhap)</td>
-
-                                </tr>
-                            }
-
+                            </tr>
 
                         }
                     </tbody>

@@ -53,7 +53,7 @@ namespace EMD.Controllers
                 else
                 {
                     //////////////// DS EMD can tru  theo EmD /////////////////
-                    EMDViewModel.EMDTbl = emd;
+                    EMDViewModel.EMDTbl = emd; // after row click
                     EMDViewModel.EMDCanTrus = _unitOfWork.eMDCanTruRepository.Find(x => x.OldNumber == emd.Number && x.TimThay); // theo emd cu va timthay == true
                     if (EMDViewModel.EMDCanTrus.Count() == 0)
                     {
