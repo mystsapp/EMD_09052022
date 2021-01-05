@@ -34,7 +34,9 @@ namespace EMD.Data.Models
 
         [MaxLength(10, ErrorMessage = "Không vượt qua 10 ký tự."), Column(TypeName = "varchar(10)")]
         public string MaCN { get; set; }
-        
+
+        public DateTime NgayTao { get; set; }
+
         [MaxLength(50, ErrorMessage = "Không vượt qua 50 ký tự."), Column(TypeName = "varchar(50)")]
         public string NguoiTao { get; set; }
 

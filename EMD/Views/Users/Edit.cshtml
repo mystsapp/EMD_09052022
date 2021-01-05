@@ -1,4 +1,4 @@
-﻿@model UserEditViewModel
+﻿@model UserViewModel
 @using EMD.Extensions
 
 @{
@@ -45,33 +45,35 @@
         <div class="card-body">
 
 
-            <form method="post" autocomplete="off" enctype="multipart/form-data">
+            <form method="post" autocomplete="off" >
                 <div class="p-4 border rounded">
-
+                    <input type="hidden" asp-for="UsernameCreate" value="abc" /> <!-- this field is required-->
                     <input type="hidden" asp-for="User.Id" />
-                    <input type="hidden" asp-for="User.Username" />
                     <input type="hidden" asp-for="User.MaCN" />
                     <input type="hidden" asp-for="User.Doimk" />
                     <input type="hidden" asp-for="User.Ngaydoimk" />
                     <input type="hidden" asp-for="User.NguoiTao" />
-                    <input type="hidden" asp-for="OldPass" value="@Model.User.Password" />
+                    <input type="hidden" asp-for="User.NgayTao" />
+                    <input type="hidden" asp-for="User.Username" />
+                    <input type="hidden" asp-for="OldPassword" value="@Model.User.Password" />
+
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
                     <div class="form-group row">
 
-                        <div class="col-2">
-                            <label asp-for="UsernameEdit"></label>
+                        <div class="col-md-2">
+                            <label asp-for="User.Username"></label>
                         </div>
-                        <div class="col-4">
-                            <input class="form-control" asp-for="UsernameEdit" readonly/>
-                            <span class="text-danger" asp-validation-for="UsernameEdit"></span>
+                        <div class="col-md-4">
+                            <input class="form-control" asp-for="User.Username" disabled />
+                            <span class="text-danger" asp-validation-for="User.Username"></span>
                         </div>
 
-                        <div class="col-2">
+                        <div class="col-md-2">
                             <label asp-for="User.Password"></label>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4">
                             <input class="form-control" asp-for="User.Password" />
                             <span class="text-danger" asp-validation-for="User.Password"></span>
                         </div>
@@ -118,7 +120,7 @@
                             <span class="text-danger" asp-validation-for="User.PhongBan"></span>
                         </div>
 
-                        
+
                     </div>
 
                     <div class="form-group row">
@@ -143,7 +145,7 @@
                         </div>
 
                     </div>
-                    
+
                     <div class="form-group row">
                         <div class="col-2">
                             <label asp-for="User.TrangThai"></label>
@@ -175,9 +177,8 @@
 
 
 @section Scripts{
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");
-
+    
         <script src="~/js/Admin/User/editController.js"></script>
-    }
+    
 }
 

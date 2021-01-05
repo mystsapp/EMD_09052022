@@ -13,7 +13,10 @@ namespace EMD.Data.Interfaces
         Task<IEnumerable<T>> GetAllIncludeAsync(Expression<Func<T, object>> predicate, Expression<Func<T, object>> predicate2);
         IEnumerable<T> Find(Func<T, bool> predicate);
         T GetById(int id);
+        Task<T> GetByIdAsync(string id);
+
         T GetSingleNoTracking(Func<T, bool> predicate);
+        T GetByIdAsNoTracking(Func<T, bool> predicate);
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<User>
+﻿@*@model IEnumerable<User>*@
+
+@model UserViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -10,7 +12,8 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <a class="btn btn-outline-info" asp-action="Create"><i class="fas fa-plus"></i>&nbsp; Thêm Mới</a>
+                @*<a class="btn btn-outline-info" asp-action="Create"><i class="fas fa-plus"></i>&nbsp; Thêm Mới</a>*@
+                <a class="btn btn-outline-info" asp-action="Create" asp-route-strUrl="@Model.StrUrl" title="Thêm mới"><i class="fas fa-plus"></i>&nbsp; Thêm Mới</a>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -42,34 +45,63 @@
         <div class="card-body">
 
             <div style="overflow-x:auto;">
-                <table class="table mytable text-nowrap" id="listAll">
-                    <tr class="table-info">
-                        <th>@Html.DisplayNameFor(m => m.Name)</th>
-                        <th>@Html.DisplayNameFor(m => m.Username)</th>
-                        <th>@Html.DisplayNameFor(m => m.RoleId)</th>
-                        <th>@Html.DisplayNameFor(m => m.PhongBan)</th>
-                        <th>@Html.DisplayNameFor(m => m.ChiNhanhId)</th>
-                        <th>@Html.DisplayNameFor(m => m.DMDaiLy)</th>
-                        <th>@Html.DisplayNameFor(m => m.Khoi)</th>
-                        <th></th>
-
-                    </tr>
-
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@Html.DisplayFor(m => item.Name)</td>
-                            <td>@Html.DisplayFor(m => item.Username)</td>
-                            <td>@Html.DisplayFor(m => item.Role.Name)</td>
-                            <td>@Html.DisplayFor(m => item.PhongBan)</td>
-                            <td>@Html.DisplayFor(m => item.ChiNhanh.MaChiNhanh)</td>
-                            <td>@Html.DisplayFor(m => item.DMDaiLy)</td>
-                            <td>@Html.DisplayFor(m => item.Khoi)</td>
-
-                            <partial name="_TableButtonPartial" model="item.Id">
+                <table class="table mytable text-nowrap" id="listUser">
+                    <thead>
+                        <tr class="table-info">
+                            <th>#</th>
+                            <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().Name)</th>
+                            <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().Username)</th>
+                            <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().RoleId)</th>
+                            <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().PhongBan)</th>
+                            <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().ChiNhanhId)</th>
+                            <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().DMDaiLy)</th>
+                            <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().Khoi)</th>
 
                         </tr>
-                    }
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Users)
+                        {
+                            <tr>
+
+                                <td>
+                                    <div class="btn-group text-white" role="group">
+
+                                        <a class="text-primary" title="Cập nhật" asp-action="Edit" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-edit"></i></a>
+                                        <span class="text-dark"> | </span>
+
+                                        <a class="text-success" title="Chi tiết" asp-action="Details" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-list"></i></a>
+                                        <span class="text-dark"> | </span>
+
+                                        <form asp-action="Delete" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl" method="post">
+
+                                            <span id="confirmDeleteSpan_@item.Id" style="display: none">
+                                                <span class="text-dark">Xóa?</span>
+                                                <button type="submit" class="btn btn-danger btn-xs">Yes</button>
+                                                <button type="button" class="btn btn-primary btn-xs" onclick="confirmDelete('@item.Id', false)">No</button>
+                                            </span>
+
+                                            <span id="deleteSpan_@item.Id">
+
+                                                <button title="Xóa" type="button" class="text-danger border-0 bg-transparent " onclick="confirmDelete('@item.Id', true)"><i class="fas fa-trash-alt"></i></button>
+                                            </span>
+                                        </form>
+                                    </div>
+                                </td>
+
+                                <td>@Html.DisplayFor(m => item.Name)</td>
+                                <td>@Html.DisplayFor(m => item.Username)</td>
+                                <td>@Html.DisplayFor(m => item.Role.Name)</td>
+                                <td>@Html.DisplayFor(m => item.PhongBan)</td>
+                                <td>@Html.DisplayFor(m => item.ChiNhanh.MaChiNhanh)</td>
+                                <td>@Html.DisplayFor(m => item.DMDaiLy)</td>
+                                <td>@Html.DisplayFor(m => item.Khoi)</td>
+
+                                @*<partial name="_TableButtonPartial" model="item.Id">*@
+
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
 
@@ -81,3 +113,22 @@
 
 </section>
 <!-- /.content -->
+@section Scripts{
+    <script>
+
+        $(function () {
+            //$("#datepicker").datepicker({
+            //    dateFormat: 'dd/mm/yy'
+            //});
+
+            $('#listUser').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+            });
+        });
+    </script>
+}

@@ -87,5 +87,16 @@ namespace EMD.Data.Repository
         {
             return await _context.Set<T>().Include(expressObj).Where(expression).ToListAsync();
         }
+
+        public async Task<T> GetByIdAsync(string id)
+        {
+            return await _context.Set<T>().FindAsync(id);
+        }
+
+        public T GetByIdAsNoTracking(Func<T, bool> predicate)
+        {
+            return _context.Set<T>().AsNoTracking().SingleOrDefault(predicate);
+        }
+
     }
 }
