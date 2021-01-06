@@ -56,6 +56,7 @@
                             <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().ChiNhanhId)</th>
                             <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().DMDaiLy)</th>
                             <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().Khoi)</th>
+                            <th>@Html.DisplayNameFor(m => m.Users.FirstOrDefault().TrangThai)</th>
 
                         </tr>
                     </thead>
@@ -96,6 +97,17 @@
                                 <td>@Html.DisplayFor(m => item.ChiNhanh.MaChiNhanh)</td>
                                 <td>@Html.DisplayFor(m => item.DMDaiLy)</td>
                                 <td>@Html.DisplayFor(m => item.Khoi)</td>
+                                <td>
+                                    @if (item.TrangThai == true)
+                                    {
+                                        <span class="badge badge-success">Kích hoạt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Khóa</span>
+                                    }
+
+                                </td>
 
                                 @*<partial name="_TableButtonPartial" model="item.Id">*@
 
@@ -131,4 +143,43 @@
             });
         });
     </script>
+
+
+    @*<script src="~/js/Admin/NganhNghe/indexController.js"></script>*@
+
+    <script>
+        function confirmDelete(uniqueId, isDeleteClicked) {
+            var deleteSpan = 'deleteSpan_' + uniqueId;
+            var confirmDeleteSpan = 'confirmDeleteSpan_' + uniqueId;
+
+            if (isDeleteClicked) {
+                $('#' + deleteSpan).hide();
+                $('#' + confirmDeleteSpan).show();
+            } else {
+                $('#' + deleteSpan).show();
+                $('#' + confirmDeleteSpan).hide();
+            }
+        }
+    </script>
+
+
+    <style>
+        /*#listAll {
+                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }*/
+
+        #search {
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        /*#listAll .cursor-pointer:hover {
+                background-color: #3E5C9A;
+                cursor: pointer;
+            }
+
+            .hoverClass {
+                background-color: #3E5C9A;
+            }*/
+    </style>
+
 }

@@ -175,7 +175,7 @@ namespace EMD.Controllers
 
             if (ModelState.IsValid)
             {
-                
+
                 if (string.IsNullOrEmpty(UserVM.User.Password))
                 {
                     UserVM.User.Password = UserVM.OldPassword;
@@ -265,19 +265,35 @@ namespace EMD.Controllers
         // Post: Delete method
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int id)
+        public async Task<IActionResult> DeleteConfirm(int id, string strUrl)
         {
             User user = await _unitOfWork.userRepository.GetByIdAsync(id);
 
             if (user == null)
                 return NotFound();
-            else
+
+
+            //        delete qltaikhoan.dbo.ApplicationUser where username = (select username from deleted)
+            var applicationUserQLTaiKhoan = await _unitOfWork.applicationUserQLTaiKhoanRepository.GetByIdTwoKeyAsync(user.Username, "012");
+            if (applicationUserQLTaiKhoan != null)
+            {
+                _unitOfWork.applicationUserQLTaiKhoanRepository.Delete(applicationUserQLTaiKhoan);
+            }
+            //        delete qltaikhoan.dbo.ApplicationUser where username = (select username from deleted)
+
+            try
             {
                 _unitOfWork.userRepository.Delete(user);
                 await _unitOfWork.Complete();
                 SetAlert("Xóa User thành công.", "success");
-                return RedirectToAction(nameof(Index));
+                return Redirect(strUrl);
             }
+            catch (Exception ex)
+            {
+                SetAlert(ex.Message, "error");
+                return Redirect(strUrl);
+            }
+
         }
 
         [HttpGet]
@@ -298,7 +314,7 @@ namespace EMD.Controllers
                 result = true;
             return Json(result);
         }
-        
+
         [AcceptVerbs("get", "post")]
         public IActionResult UsersEditExists(string UsernameEdit, string Username)
         {
