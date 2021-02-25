@@ -54,11 +54,12 @@ namespace EMD.Controllers
                 {
                     //////////////// DS EMD can tru  theo EmD /////////////////
                     EMDViewModel.EMDTbl = emd; // after row click
-                    EMDViewModel.EMDCanTrus = _unitOfWork.eMDCanTruRepository.Find(x => x.OldNumber == emd.Number && x.TimThay); // theo emd cu va timthay == true
-                    if (EMDViewModel.EMDCanTrus.Count() == 0)
-                    {
-                        EMDViewModel.EMDCanTrus = null;
-                    }
+                    EMDViewModel.EMDCanTrus = _unitOfWork.eMDCanTruRepository.Find(x => x.OldNumber == emd.Number && x.TimThay.Value); // theo emd cu va timthay == true
+                    var abc = _unitOfWork.eMDCanTruRepository.GetAll();
+                    //if (EMDViewModel.EMDCanTrus.Count() == 0)
+                    //{
+                    //    EMDViewModel.EMDCanTrus = null;
+                    //}
                     //////////////// DS EMD can tru  theo EmD /////////////////
                 }
 

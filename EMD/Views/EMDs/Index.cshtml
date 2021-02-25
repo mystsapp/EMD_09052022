@@ -269,8 +269,8 @@
                                     <td>@Html.DisplayFor(m => item.Number)</td>
                                     <td>@Html.DisplayFor(m => item.OldNumber)</td>
                                     <td>@Html.DisplayFor(m => item.LoaiBK)</td>
-                                    <td>@Html.Raw(item.STDatCoc.ToString("N0"))</td>
-                                    <td>@Html.Raw(item.NgayNhap.ToString("dd/MM/yyyy"))</td>
+                                    <td>@Html.Raw(item.STDatCoc.Value.ToString("N0"))</td>
+                                    <td>@Html.Raw(item.NgayNhap.Value.ToString("dd/MM/yyyy"))</td>
 
 
                                 </tr>
