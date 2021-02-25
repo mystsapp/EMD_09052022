@@ -296,7 +296,7 @@ namespace EMD.Migrations
                     b.Property<string>("UserXoa")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Xoa")
+                    b.Property<bool>("Xoa")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");

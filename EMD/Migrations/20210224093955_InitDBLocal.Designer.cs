@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EMD.Migrations
 {
     [DbContext(typeof(EMDDbContext))]
-    [Migration("20200703070152_addNeColEmdCanTru")]
-    partial class addNeColEmdCanTru
+    [Migration("20210224093955_InitDBLocal")]
+    partial class InitDBLocal
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,10 +147,14 @@ namespace EMD.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Number")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OldNumber")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("STDatCoc")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("TimThay")
                         .HasColumnType("bit");
@@ -179,6 +183,9 @@ namespace EMD.Migrations
                     b.Property<DateTime?>("BatDau")
                         .IsRequired()
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("CanTru")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("Create")
                         .HasColumnType("datetime2");
@@ -218,6 +225,9 @@ namespace EMD.Migrations
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
+                    b.Property<string>("LogFile")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("NgayDC")
                         .HasColumnType("datetime2");
 
@@ -227,7 +237,14 @@ namespace EMD.Migrations
                     b.Property<DateTime?>("NgaySua")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("NgayXoa")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("NguoiNhap")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("NguoiSua")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -277,6 +294,12 @@ namespace EMD.Migrations
 
                     b.Property<decimal>("TyGia")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserXoa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Xoa")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -422,6 +445,9 @@ namespace EMD.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
+
+                    b.Property<DateTime>("NgayTao")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("Ngaydoimk")
                         .HasColumnType("datetime2");

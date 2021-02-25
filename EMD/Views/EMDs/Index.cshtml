@@ -163,7 +163,7 @@
 
                                 <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.LoaiBK)</td>
                                 <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SLVeDaXuat)</td>
-                                <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienXuatVe.ToString("N0"))</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienXuatVe.Value.ToString("N0"))</td>
                                 <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.GhiChu)</td>
                                 <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienPhat.ToString("N0"))</td>
                                 <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NgayPhat)</td>

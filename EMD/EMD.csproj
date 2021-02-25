@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20191205073047_fixCol.cs" />
-    <Compile Remove="Migrations\20191205073047_fixCol.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\AdminLTE\bootstrap\css\bootstrap.css.map" />
     <None Include="wwwroot\AdminLTE\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <None Include="wwwroot\AdminLTE\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
