@@ -132,7 +132,7 @@
                                         <form asp-action="Delete" asp-route-id="@item.Id" asp-route-strUrl="@Model.StrUrl" method="post">
 
                                             <span id="confirmDeleteSpan_@item.Id" style="display: none">
-                                                <span class="text-light">Xóa?</span>
+                                                <span class="text-dark">Xóa?</span>
                                                 <button type="submit" class="btn btn-danger">Yes</button>
                                                 <button type="button" class="btn btn-primary" onclick="confirmDelete('@item.Id', false)">No</button>
                                             </span>
@@ -163,7 +163,7 @@
 
                                 <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.LoaiBK)</td>
                                 <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.SLVeDaXuat)</td>
-                                <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienXuatVe.Value.ToString("N0"))</td>
+                                <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienXuatVe.HasValue ? item.TienXuatVe.Value.ToString("N0") : "")</td>
                                 <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.GhiChu)</td>
                                 <td class="tdVal" data-id="@item.Id">@Html.Raw(item.TienPhat.ToString("N0"))</td>
                                 <td class="tdVal" data-id="@item.Id">@Html.DisplayFor(m => item.NgayPhat)</td>

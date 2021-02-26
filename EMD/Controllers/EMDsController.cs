@@ -55,7 +55,7 @@ namespace EMD.Controllers
                     //////////////// DS EMD can tru  theo EmD /////////////////
                     EMDViewModel.EMDTbl = emd; // after row click
                     EMDViewModel.EMDCanTrus = _unitOfWork.eMDCanTruRepository.Find(x => x.OldNumber == emd.Number && x.TimThay.Value); // theo emd cu va timthay == true
-                    var abc = _unitOfWork.eMDCanTruRepository.GetAll();
+                    //var abc = _unitOfWork.eMDCanTruRepository.GetAll();
                     //if (EMDViewModel.EMDCanTrus.Count() == 0)
                     //{
                     //    EMDViewModel.EMDCanTrus = null;
@@ -98,10 +98,12 @@ namespace EMD.Controllers
             }
 
             EMDViewModel.EMDTbl.Create = DateTime.Now;
-            EMDViewModel.EMDTbl.NguoiNhap = user.Username;
+            EMDViewModel.EMDTbl.NguoiNhap = user.Name;
             EMDViewModel.EMDTbl.SGTCode = EMDViewModel.EMDTbl.SGTCode.ToUpper();
             EMDViewModel.EMDTbl.Number = EMDViewModel.Number;
             EMDViewModel.EMDTbl.Xoa = false;
+            EMDViewModel.EMDTbl.CanTru = false;
+            EMDViewModel.EMDTbl.DaHoanCoc = false;
 
             string hangHK = EMDViewModel.EMDTbl.HangHK;
             if (!string.IsNullOrEmpty(hangHK))
@@ -117,7 +119,7 @@ namespace EMD.Controllers
                 SetAlert("Thêm mới thành công.", "success");
                 return Redirect(strUrl);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return View(nameof(Create), new { strUrl = strUrl });
             }
@@ -184,7 +186,7 @@ namespace EMD.Controllers
             dienGiaiVM.CacVeTuCTHK = "Các vé đã xuất bên CTHK: \n";
             dienGiaiVM.SLVeDaXuat = "Số lượng vé đã xuất: ";
             dienGiaiVM.SoTienDaXuat = "Số tiền đã xuất: ";
-            dienGiaiVM.NguoiNhap = dsDienGiai.FirstOrDefault().nguoinhap;
+            dienGiaiVM.NguoiNhap = dsDienGiai.Count() == 0 ? "" : dsDienGiai.FirstOrDefault().nguoinhap;
 
             if (dsDienGiai.Count() != 0)
             {
@@ -332,7 +334,7 @@ namespace EMD.Controllers
                 return NotFound();
 
             EMDViewModel.EMDTbl.NgaySua = DateTime.Now;
-            EMDViewModel.EMDTbl.NguoiSua = user.Username;
+            EMDViewModel.EMDTbl.NguoiSua = user.Name;
             //EMDViewModel.EMDTbl.Tracking = "Not";
             EMDViewModel.EMDTbl.Xoa = false;
 

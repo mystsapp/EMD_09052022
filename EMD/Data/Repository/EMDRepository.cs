@@ -286,7 +286,7 @@ namespace EMD.Data.Repository
             // retrieve list from database/whereverand
 
             //var list = GetAll().Where(x => x.Xoa == false).AsQueryable();
-            var list = GetAll();//.Where(x => x.Xoa != true).AsQueryable();
+            var list = GetAll().Where(x => x.Xoa != true).AsQueryable();
             
             if (!string.IsNullOrEmpty(searchString))
             {
