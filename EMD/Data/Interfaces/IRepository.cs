@@ -13,6 +13,7 @@ namespace EMD.Data.Interfaces
         Task<IEnumerable<T>> GetAllIncludeAsync(Expression<Func<T, object>> predicate, Expression<Func<T, object>> predicate2);
         IEnumerable<T> Find(Func<T, bool> predicate);
         T GetById(int id);
+        T GetById(long id);
         Task<T> GetByIdAsync(string id);
 
         T GetSingleNoTracking(Func<T, bool> predicate);

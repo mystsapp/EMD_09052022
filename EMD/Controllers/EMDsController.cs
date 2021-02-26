@@ -30,7 +30,7 @@ namespace EMD.Controllers
 
             };
         }
-        public IActionResult Index(int id = 0, string searchString = null, string searchDate = null, int page = 1)
+        public IActionResult Index(long id = 0, string searchString = null, string searchDate = null, int page = 1)
         {
             EMDViewModel.StrUrl = UriHelper.GetDisplayUrl(Request);
             ViewBag.searchString = searchString;

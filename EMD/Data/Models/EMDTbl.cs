@@ -133,7 +133,7 @@ namespace EMD.Data.Models
 
         //public bool Xoa { get; set; }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [MaxLength(50), Column(TypeName = "varchar(50)")]
         [Required(ErrorMessage = "Code đoàn không được để trống")]

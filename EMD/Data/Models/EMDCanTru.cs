@@ -30,7 +30,7 @@ namespace EMD.Data.Models
         //public string UserSua { get; set; }
         //public DateTime NgaySua { get; set; }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
         [DisplayName("EMD cấn trừ")]
         [Required(ErrorMessage = "EMD Cấn trừ không được để trống.")]
         public string Number { get; set; }
