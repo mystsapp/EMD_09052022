@@ -89,7 +89,7 @@ namespace EMD.Data.Repository
             return _context.Set<T>().Find(id);
         }
 
-        public T GetById(long id)
+        public T GetByLongId(long id)
         {
             return _context.Set<T>().Find(id);
         }

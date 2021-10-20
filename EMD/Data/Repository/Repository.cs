@@ -98,7 +98,7 @@ namespace EMD.Data.Repository
             return _context.Set<T>().AsNoTracking().SingleOrDefault(predicate);
         }
 
-        public T GetById(long id)
+        public T GetByLongId(long id)
         {
             return _context.Set<T>().Find(id);
         }

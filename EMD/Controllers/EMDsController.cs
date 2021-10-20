@@ -40,7 +40,7 @@ namespace EMD.Controllers
             if (id != 0)
             {
 
-                var emd = _unitOfWork.emdRepository.GetById(id);
+                var emd = _unitOfWork.emdRepository.GetByLongId(id);
                 if (emd == null)
                 {
 
@@ -307,12 +307,12 @@ namespace EMD.Controllers
         //}
 
         // Get: Edit method
-        public async Task<IActionResult> Edit(int? id, string strUrl)
+        public async Task<IActionResult> Edit(long id, string strUrl)
         {
-            if (id == null)
+            if (id == 0)
                 return NotFound();
 
-            EMDViewModel.EMDTbl = await _unitOfWork.emdRepository.GetByIdAsync(id);
+            EMDViewModel.EMDTbl = _unitOfWork.emdRepository.GetByLongId(id);
 
             EMDViewModel.HangHKs = await _unitOfWork.emdRepository.GetHangHKs();
             EMDViewModel.EMDTbl.NgayDC = DateTime.Parse(DateTime.Now.ToShortDateString());
